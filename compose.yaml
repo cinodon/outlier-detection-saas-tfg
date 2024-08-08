@@ -13,6 +13,7 @@ services:
       - "5432:5432"
     volumes:
       - postgress-volume:/var/lib/postgresql/data
+      - ./database/initialization:/docker-entrypoint-initdb.d/
     secrets:
       - db-password
 
