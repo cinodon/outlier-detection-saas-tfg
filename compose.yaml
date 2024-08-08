@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:16
     container_name: postgres_service
-    user: "${UID}:${GID}"  # Use environment variables to dynamically set user and group IDs
+    # user: "${UID}:${GID}"  # Use environment variables to dynamically set user and group IDs (not allowed by postgress oficial image)
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password  # Using secrets
       POSTGRES_USER: postgres  # Custom username
