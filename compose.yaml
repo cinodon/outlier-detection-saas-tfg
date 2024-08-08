@@ -2,8 +2,7 @@ version: '3.8'  # Versión de Docker Compose
 
 services:
   db:
-    build:
-      context: ./database  # Ubicación del Dockerfile
+    image: dpage/pgadmin4
     container_name: postgres_service
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password  # Usamos secrets
