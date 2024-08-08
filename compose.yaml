@@ -1,0 +1,34 @@
+version: '3.8'  # Versión de Docker Compose
+services:
+  db:
+    build:
+      context: ./database  # Ubicación del Dockerfile
+    container_name: postgres_service
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db-password  # Usamos secrets
+      POSTGRES_USER: postgres  # Nombre de usuario personalizado
+      POSTGRES_DB: company148  # Base de datos inicial
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    secrets:
+      - db-password
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: ./database/db-password  # Ubicación del fichero secreto
