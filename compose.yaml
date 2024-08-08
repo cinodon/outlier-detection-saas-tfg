@@ -1,17 +1,19 @@
-version: '3.8'  # Versión de Docker Compose
+version: '3.8'
+
 services:
   db:
-    build:
-      context: ./database  # Ubicación del Dockerfile
+    image: postgres:16
     container_name: postgres_service
+    # user: "${UID}:${GID}"  # Use environment variables to dynamically set user and group IDs (not allowed by postgress oficial image)
     environment:
-      POSTGRES_PASSWORD_FILE: /run/secrets/db-password  # Usamos secrets
-      POSTGRES_USER: postgres  # Nombre de usuario personalizado
-      POSTGRES_DB: company148  # Base de datos inicial
+      POSTGRES_PASSWORD_FILE: /run/secrets/db-password  # Using secrets
+      POSTGRES_USER: postgres  # Custom username
+      POSTGRES_DB: company148  # Initial database
     ports:
       - "5432:5432"
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - postgress-data:/var/lib/postgresql/data
+      - ./database/initialization:/docker-entrypoint-initdb.d/
     secrets:
       - db-password
 
@@ -27,8 +29,13 @@ services:
       - db
 
 volumes:
-  db-data:
+  postgress-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/database/postgress-volume
 
 secrets:
   db-password:
-    file: ./database/db-password  # Ubicación del fichero secreto
+    file: ./database/db-password  # Location of the secret file
