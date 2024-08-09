@@ -19,4 +19,3 @@ db_config = {
 # Connect to database
 conn = psycopg2.connect(**db_config)
 print("Connected successfully!")
-
