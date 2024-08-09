@@ -28,6 +28,17 @@ services:
     depends_on:
       - db
 
+  etl:
+    build:
+      context: ./etl
+    container_name: etl_service
+    depends_on:
+      - db
+    environment:
+      DB_PASSWORD_FILE: /run/secrets/db-password
+    secrets:
+      - db-password
+
 volumes:
   postgress-data:
     driver: local
