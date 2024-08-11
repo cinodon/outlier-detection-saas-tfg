@@ -1,5 +1,6 @@
 import psycopg2
 import numpy as np
+import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction import FeatureHasher
 from sklearn.impute import SimpleImputer
@@ -13,7 +14,7 @@ with open(password_file_path, 'r') as file:
     db_password = file.read().strip()
 
 # Read query
-with open('/files/query-raw-access-data.sql') as sql_file:
+with open('/app/etl/files/query-raw-access-data.sql') as sql_file:
     sql_query = sql_file.read()
 
 # Conecction Settings
@@ -85,3 +86,10 @@ transformed_data = np.hstack((
     encoded_is_privileged.reshape(-1, 1)
 ))
 
+# Save the data to be used by model
+result_df = pd.DataFrame(transformed_data)
+result_df.to_csv('/app/etl/files/data-model.csv', header=False, index=False)
+print("Data Transformed and Saved successfully!")
+
+while True:
+    a = 0

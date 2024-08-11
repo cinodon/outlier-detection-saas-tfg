@@ -38,6 +38,9 @@ services:
       DB_PASSWORD_FILE: /run/secrets/db-password
     secrets:
       - db-password
+    volumes:
+      - shared-data:/app/etl/files
+
 
 volumes:
   postgress-data:
@@ -46,6 +49,13 @@ volumes:
       type: none
       o: bind
       device: ${PWD}/database/postgress-volume
+
+  shared-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/etl/files
 
 secrets:
   db-password:

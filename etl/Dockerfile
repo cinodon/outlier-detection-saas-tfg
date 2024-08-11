@@ -2,12 +2,12 @@
 FROM python:3.11-slim
 
 # Crea el directorio /app/files
-RUN mkdir -p /app/files
+RUN mkdir -p /app/etl/files
 
 # Copiar el archivo SQL al directorio /files dentro del contenedor
-COPY /files/query-raw-access-data.sql /files/
+COPY /files/query-raw-access-data.sql /app/etl/files/
 
-WORKDIR /app
+WORKDIR /app/etl
 
 # Copy requirements
 COPY etl-requirements.txt .
