@@ -28,6 +28,20 @@ services:
     depends_on:
       - db
 
+  etl:
+    build:
+      context: ./etl
+    container_name: etl_service
+    depends_on:
+      - db
+    environment:
+      DB_PASSWORD_FILE: /run/secrets/db-password
+    secrets:
+      - db-password
+    volumes:
+      - shared-data:/app/etl/files
+
+
 volumes:
   postgress-data:
     driver: local
@@ -35,6 +49,13 @@ volumes:
       type: none
       o: bind
       device: ${PWD}/database/postgress-volume
+
+  shared-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/etl/files
 
 secrets:
   db-password:
