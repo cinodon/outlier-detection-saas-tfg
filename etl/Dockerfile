@@ -1,10 +1,10 @@
 # Light image for python11
 FROM python:3.11-slim
 
-# Crea el directorio /app/files
+# Create dir /app/files
 RUN mkdir -p /app/etl/files
 
-# Copiar el archivo SQL al directorio /files dentro del contenedor
+# Copy sql to etl_service
 COPY /files/query-raw-access-data.sql /app/etl/files/
 
 WORKDIR /app/etl

@@ -41,6 +41,14 @@ services:
     volumes:
       - shared-data:/app/etl/files
 
+  model:
+    build:
+      context: ./model
+    container_name: model_service
+    depends_on:
+      - etl
+    volumes:
+      - shared-data:/app/model/files
 
 volumes:
   postgress-data:
