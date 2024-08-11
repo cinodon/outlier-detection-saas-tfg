@@ -3,6 +3,7 @@ FROM python:3.11-slim
 
 # Create directory /app/model files
 RUN mkdir -p /app/model/files
+RUN mkdir -p /app/model/output
 
 WORKDIR /app/model
 

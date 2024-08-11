@@ -49,6 +49,7 @@ services:
       - etl
     volumes:
       - shared-data:/app/model/files
+      - model-output:/app/model/output
 
 volumes:
   postgress-data:
@@ -64,6 +65,13 @@ volumes:
       type: none
       o: bind
       device: ${PWD}/etl/files
+
+  model-output:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/model/output
 
 secrets:
   db-password:
