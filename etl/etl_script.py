@@ -1,21 +1,8 @@
-import psycopg2
+from models.users import User
+from engine.engine import session
 
-# Path to the secrets
-password_file_path = '/run/secrets/db-password'
+# Show users - Simple Query Test
+users = session.query(User).all()
 
-# Read password
-with open(password_file_path, 'r') as file:
-    db_password = file.read().strip()
-
-# Connection Settings
-db_config = {
-    'dbname': 'company148',
-    'user': 'postgres',
-    'password': db_password,
-    'host': 'db',
-    'port': '5432'
-}
-
-# Connect to database
-conn = psycopg2.connect(**db_config)
-print("Connected successfully!")
+for user in users:
+    print(f"User ID: {user.Id}, Manager ID: {user.ManagerId}, TypeOfWork ID: {user.TypeOfWorkId}, Role ID: {user.RoleId}")
