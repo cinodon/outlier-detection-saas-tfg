@@ -1,6 +1,9 @@
 # Light image for python11
 FROM python:3.11-slim
 
+# Crea el directorio /app/files
+RUN mkdir -p /app/files
+
 WORKDIR /app
 
 # Copy requirements

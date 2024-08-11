@@ -15,4 +15,6 @@ class User(Base):
 
     # Relations
     manager = relationship("User", remote_side=[Id])
+    user_app_roles = relationship("UserAppRole", back_populates="user")
+    users_group_users = relationship("UsersGroupUser", back_populates="user")
 
