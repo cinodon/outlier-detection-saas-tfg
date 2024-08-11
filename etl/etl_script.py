@@ -90,6 +90,3 @@ transformed_data = np.hstack((
 result_df = pd.DataFrame(transformed_data)
 result_df.to_csv('/app/etl/files/data-model.csv', header=False, index=False)
 print("Data Transformed and Saved successfully!")
-
-while True:
-    a = 0
