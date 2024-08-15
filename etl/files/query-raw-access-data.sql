@@ -1,21 +1,30 @@
 SELECT
-    wa."Name" AS "WorkAppName",
-    wa."Id" AS "WorkAppId",
+    uar."WorkAppId" AS WorkAppId,
+    wa."WorkAppCategoryId" AS WorkAppCategoryId,
+    uar."UserId" AS UserId,
+    u."ManagerId" AS UserManagerId,
+    u."TypeOfWorkId" AS UserTypeOfWorkId,
+    u."RoleId" AS UserRoleId,
+    uar."PermissionLevelId" AS PermissionLevelId,
+    pl."IsPrivileged" AS PermissionLevelIsPrivileged,
+    ARRAY_AGG(ugu."UsersGroupId") AS UsersGroupIds
+
+FROM
+    api."UserAppRoles" uar
+LEFT JOIN
+    api."WorkApps" wa ON uar."WorkAppId" = wa."Id"
+LEFT JOIN
+    api."Users" u ON uar."UserId" = u."Id"
+LEFT JOIN
+    api."PermissionLevels" pl ON uar."PermissionLevelId" = pl."Id"
+LEFT JOIN
+    api."UsersGroupUsers" ugu ON uar."UserId" = ugu."UserId"
+GROUP BY
+    uar."WorkAppId",
     wa."WorkAppCategoryId",
     uar."UserId",
     u."ManagerId",
     u."TypeOfWorkId",
     u."RoleId",
-    ugu."UsersGroupId",
     uar."PermissionLevelId",
-    pl."IsPrivileged" AS "PermissionLevelIsPrivileged"
-FROM
-    api."WorkApps" wa
-LEFT JOIN
-    api."UserAppRoles" uar ON uar."WorkAppId" = wa."Id"
-LEFT JOIN
-    api."Users" u ON uar."UserId" = u."Id"
-LEFT JOIN
-    api."UsersGroupUsers" ugu ON ugu."UserId" = uar."UserId"
-LEFT JOIN
-    api."PermissionLevels" pl ON pl."Id" = uar."PermissionLevelId";
+    pl."IsPrivileged";
