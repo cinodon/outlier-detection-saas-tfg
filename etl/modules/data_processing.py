@@ -10,6 +10,7 @@ def transform_data(query_results, cursor):
     sql_dataframe = fill_na_columns(sql_dataframe, ['workappcategoryid', 'usertypeofworkid', 'userroleid', 'permissionlevelisprivileged'])
     sql_dataframe = transform_is_privileged_column(sql_dataframe, 'permissionlevelisprivileged')
 
+    print("Data transformed successfully!")
     return sql_dataframe
 
 

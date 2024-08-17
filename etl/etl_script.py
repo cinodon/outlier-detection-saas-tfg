@@ -1,4 +1,3 @@
-import psycopg2
 from modules import data_processing as dp
 from modules import db_processor as db
 
