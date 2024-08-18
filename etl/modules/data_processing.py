@@ -2,7 +2,7 @@ import uuid
 import pandas as pd
 
 
-def transform_data(query_results, cursor):
+def transform_query_data(query_results, cursor):
     column_names = get_column_names(cursor)
     sql_dataframe = create_dataframe(query_results, column_names)
 
@@ -11,6 +11,12 @@ def transform_data(query_results, cursor):
     sql_dataframe = transform_is_privileged_column(sql_dataframe, 'permissionlevelisprivileged')
 
     print("Data transformed successfully!")
+    return sql_dataframe
+
+def transform_query_to_dataframe(query_results, cursor):
+    column_names = get_column_names(cursor)
+    sql_dataframe = create_dataframe(query_results, column_names)
+
     return sql_dataframe
 
 
@@ -48,3 +54,7 @@ def transform_is_privileged_column(dataframe, column_name):
 def save_to_csv(sql_dataframe, output_path):
     sql_dataframe.to_csv(output_path, header=True, index=False)
     print("Data Transformed and Saved successfully!")
+
+def load_model_input(input_path):
+    print("Data Read Successfully!")
+    return pd.read_csv(input_path)

@@ -4,8 +4,7 @@ class DBProcessor:
     def __init__(self):
         # Path to the secrets
         self.password_file_path = '/run/secrets/db-password'
-        # Path to sql_file
-        self.sql_path = '/app/etl/files/query-raw-access-data.sql'
+
         # Conecction Settings
         self.db_config = {}
         self.conn = None
@@ -39,9 +38,9 @@ class DBProcessor:
         self.cursor = self.conn.cursor()
         return self.cursor
 
-    def execute_query(self):
+    def execute_query(self, sql_path):
         # Read query
-        sql_query = self.read_sql_file()
+        sql_query = self.read_sql_file(sql_path)
 
         # Checks for cursor existence
         if self.cursor == None:
@@ -50,8 +49,8 @@ class DBProcessor:
         # Execute query
         self.cursor.execute(sql_query)
 
-    def read_sql_file(self):
-        with open(self.sql_path) as sql_file:
+    def read_sql_file(self, sql_path):
+        with open(sql_path) as sql_file:
             return sql_file.read()
 
     def get_query_result(self):

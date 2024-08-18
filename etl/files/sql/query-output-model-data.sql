@@ -1,14 +1,13 @@
 SELECT
+    uar."Id" AS UserAppRoleId,
     uar."WorkAppId" AS WorkAppId,
+    wa."Name" AS WorkAppName,
     wa."WorkAppCategoryId" AS WorkAppCategoryId,
     uar."UserId" AS UserId,
-    u."ManagerId" AS UserManagerId,
-    u."TypeOfWorkId" AS UserTypeOfWorkId,
+    tow."Name" AS TypeOfWorkName,
     u."RoleId" AS UserRoleId,
     uar."PermissionLevelId" AS PermissionLevelId,
-    pl."IsPrivileged" AS PermissionLevelIsPrivileged,
-    ARRAY_AGG(ugu."UsersGroupId") AS UsersGroupIds
-
+    pl."IsPrivileged" AS PermissionLevelIsPrivileged
 FROM
     api."UserAppRoles" uar
 LEFT JOIN
@@ -18,13 +17,6 @@ LEFT JOIN
 LEFT JOIN
     api."PermissionLevels" pl ON uar."PermissionLevelId" = pl."Id"
 LEFT JOIN
-    api."UsersGroupUsers" ugu ON uar."UserId" = ugu."UserId"
-GROUP BY
-    uar."WorkAppId",
-    wa."WorkAppCategoryId",
-    uar."UserId",
-    u."ManagerId",
-    u."TypeOfWorkId",
-    u."RoleId",
-    uar."PermissionLevelId",
-    pl."IsPrivileged";
+    api."TypeOfWorks" tow ON u."TypeOfWorkId" = tow."Id"
+WHERE
+    uar."WorkAppId" != '63ae5646-1edf-4beb-90a8-1f002140c6f0';

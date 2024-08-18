@@ -2,10 +2,13 @@
 FROM python:3.11-slim
 
 # Crea el directorio /app/files
-RUN mkdir -p /app/etl/files
+RUN mkdir -p /app/etl/files/sql
+RUN mkdir -p /app/etl/files/input
+RUN mkdir -p /app/etl/files/output
 
 # Copiar el archivo SQL al directorio /files dentro del contenedor
-COPY /files/query-raw-access-data.sql /app/etl/files/
+COPY files/sql/query-raw-access-data.sql /app/etl/files/sql/
+COPY files/sql/query-output-model-data.sql /app/etl/files/sql/
 
 WORKDIR /app/etl
 
