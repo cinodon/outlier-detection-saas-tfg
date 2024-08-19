@@ -1,6 +1,7 @@
 import uuid
 import pandas as pd
 from sklearn.decomposition import PCA
+from sklearn.manifold import SpectralEmbedding, TSNE
 from sklearn.preprocessing import MultiLabelBinarizer
 
 
@@ -136,4 +137,15 @@ def get_mismatches(df0, df1):
 def pca_reduce_dimensions(dataframe):
     pca = PCA(n_components=2)
     reduced_dataframe = pca.fit_transform(dataframe)
+    return reduced_dataframe
+
+
+def spectral_embedding_reduce_dimensions(dataframe):
+    embedding = SpectralEmbedding(n_components=2)
+    reduced_dataframe = embedding.fit_transform(dataframe)
+    return reduced_dataframe
+
+def tsne_reduce_dimensions(dataframe):
+    tsne = TSNE(n_components=2, perplexity=30, max_iter=1000, random_state=42)
+    reduced_dataframe = tsne.fit_transform(dataframe)
     return reduced_dataframe
