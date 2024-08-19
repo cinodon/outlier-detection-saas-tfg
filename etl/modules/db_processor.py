@@ -3,7 +3,7 @@ import psycopg2
 class DBProcessor:
     def __init__(self):
         # Path to the secrets
-        self.password_file_path = '/run/secrets/db-password'
+        self.password_file_path = '../database/db-password'
 
         # Conecction Settings
         self.db_config = {}
@@ -25,7 +25,7 @@ class DBProcessor:
             'dbname': 'company148',
             'user': 'postgres',
             'password': db_password,
-            'host': 'db',
+            'host': 'localhost',
             'port': '5432'
         }
 

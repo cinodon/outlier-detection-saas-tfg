@@ -33,3 +33,15 @@ def dbscan(eps, min_samples):
 def scale_data(input_data):
     scaled_data = StandardScaler().fit_transform(input_data)
     return scaled_data
+
+def execute_lof(input_data, n_neighbors):
+    # Create model
+    model = local_outlier_factor(n_neighbors)
+
+    return model.fit_predict(input_data)
+
+
+def local_outlier_factor(n_neighbors):
+    model = LocalOutlierFactor(n_neighbors=n_neighbors)
+
+    return model
