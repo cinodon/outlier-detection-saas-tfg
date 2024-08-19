@@ -53,6 +53,6 @@ dp.save_to_csv(output_test_svm, './files/output/output_test_svm.csv')
 dp.save_to_csv(output_test_lof, './files/output/output_test_lof.csv')
 
 # Compare results > get different rows
-mismatch = output_test_svm[output_test_svm['anomaly_score'] != output_test_lof['anomaly_score']]
+mismatch = dp.get_mismatches(output_test_svm, output_test_lof)
 print(mismatch)
 

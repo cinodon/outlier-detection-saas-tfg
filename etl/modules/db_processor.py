@@ -11,23 +11,19 @@ class DBProcessor:
 
         self.cursor = None
 
-    def db_connection(self):
+    def db_connection(self, db_config):
         #Setup config
-        self.set_db_config()
+        self.set_db_config(db_config)
 
         # Connect to db
         self.conn = psycopg2.connect(**self.db_config)
         print("Connected successfully!")
 
-    def set_db_config(self):
+    def set_db_config(self, db_config):
         db_password = self.db_read_pass()
-        self.db_config = {
-            'dbname': 'company148',
-            'user': 'postgres',
-            'password': db_password,
-            'host': 'localhost',
-            'port': '5432'
-        }
+        db_config['password'] = db_password
+        self.db_config = db_config
+
 
     def db_read_pass(self):
         # Read password

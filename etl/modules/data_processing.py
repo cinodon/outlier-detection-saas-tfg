@@ -122,4 +122,5 @@ def exclude_columns(df, excluded_columns):
 
     return df
 
-
+def get_mismatches(df0, df1):
+    return df0[df0['anomaly_score'] != df1['anomaly_score']]

@@ -3,12 +3,12 @@ from modules import data_processing as dp
 from modules import db_processor as db
 from modules import clustering_models as cm
 
-sql_input_data = './files/sql/query-raw-access-data.sql'
-sql_output_data = './files/sql/query-output-model-data.sql'
-
 # Config
-with open("./config.yaml", "r") as f:
+with open("./etl_config.yaml", "r") as f:
     config = yaml.safe_load(f)
+
+sql_input_data = config['sql_input_data']
+sql_output_data = config['sql_output_data']
 
 # Read from config
 connect_database = config['connect_database']
@@ -19,7 +19,8 @@ if connect_database:
     db_comm = db.DBProcessor()
 
     # Connect DB
-    db_comm.db_connection()
+    db_config = config['db_config']
+    db_comm.db_connection(db_config)
 
     # Create cursor
     db_cursor = db_comm.db_create_cursor()
@@ -68,6 +69,8 @@ n_estimators = config['n_estimators']
 max_samples = config['max_samples']
 contamination = config['contamination']
 run_if = config['run_if']
+if_save_data = config['if_save_data']
+if_save_plot = config['if_save_plot']
 if run_if:
     for ne in n_estimators:
         for ms in max_samples:
@@ -75,33 +78,66 @@ if run_if:
                 # Execute model
                 output_dataframe['anomaly_score'] = cm.execute_isolation(input_df_scaled, ne, ms, c)
 
+                # Get percentage of outliers
+                num_anomalies = (output_dataframe['anomaly_score'] == -1).sum()
+                total_entries = len(output_dataframe)
+                percentage_anomalies = (num_anomalies / total_entries) * 100
+
+                # Print percentage
+                print(f'For IF with n_estimators {ne}, max_samples {ms}, contamintation {c}: {percentage_anomalies:.2f}%')
+
                 # Save data
-                output_file = f'./files/output/IF/data/IF-ne{ne}-ms{ms}-c{c}.csv'
-                dp.save_to_csv(output_dataframe, output_file)
+                if if_save_data:
+                    output_file = f'./files/output/IF/data/IF-ne{ne}-ms{ms}-c{c}.csv'
+                    dp.save_to_csv(output_dataframe, output_file)
 
 # Set DBSCAN Parameters range
 eps = config['eps']
 min_samples = config['min_samples']
 run_dbscan = config['run_dbscan']
+dbscan_save_data = config['dbscan_save_data']
+dbscan_save_plot = config['dbscan_save_plot']
 if run_dbscan:
     for e in eps:
         for ms in min_samples:
             # Execute model
             output_dataframe['anomaly_score'] = cm.execute_dbscan(input_df_scaled, e, ms)
 
+            # Get percentage of outliers
+            num_anomalies = (output_dataframe['anomaly_score'] == -1).sum()
+            total_entries = len(output_dataframe)
+            percentage_anomalies = (num_anomalies / total_entries) * 100
+
+            # Print percentage
+            print(f'For DBSCAN with eps {e}, min_samples {ms}: {percentage_anomalies:.2f}%')
+
             # Save data
-            output_file = f'./files/output/DBSCAN/data/DBSCAN-eps{e}-ms{ms}.csv'
-            dp.save_to_csv(output_dataframe, output_file)
+            if dbscan_save_data:
+                output_file = f'./files/output/DBSCAN/data/DBSCAN-eps{e}-ms{ms}.csv'
+                dp.save_to_csv(output_dataframe, output_file)
 
 
 # Local Outlier Factor
 n_neighbors = [5, 10, 20]
 run_lof = config['run_lof']
+lof_save_data = config['lof_save_data']
+lof_save_plot = config['lof_save_plot']
 if run_lof:
     for n in n_neighbors:
         # Execute model
         output_dataframe['anomaly_score'] = cm.execute_lof(input_df_scaled, n)
 
+        # Get percentage of outliers
+        num_anomalies = (output_dataframe['anomaly_score'] == -1).sum()
+        total_entries = len(output_dataframe)
+        percentage_anomalies = (num_anomalies / total_entries) * 100
+
+        # Print percentage
+        print(f'For LOF with n_neighbors {n}: {percentage_anomalies:.2f}%')
+
         # Save data
-        output_file = f'./files/output/LOF/data/LOF-n{n}.csv'
-        dp.save_to_csv(output_dataframe, output_file)
+        if lof_save_data:
+            output_file = f'./files/output/LOF/data/LOF-n{n}.csv'
+            dp.save_to_csv(output_dataframe, output_file)
+
+
