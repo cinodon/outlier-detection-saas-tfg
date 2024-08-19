@@ -166,5 +166,5 @@ cython_debug/
 /etl/files/output/DBSCAN/data/*
 /etl/files/output/IF/data/*
 /etl/files/output/LOF/data/*
-/etl/files/output/output_test_lof.csv
-/etl/files/output/output_test_svm.csv
+/etl/files/output/hybrid_model/output_test_lof.csv
+/etl/files/output/hybrid_model/output_test_svm.csv

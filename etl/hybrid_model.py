@@ -49,8 +49,8 @@ output_test_lof = output_test
 output_test_lof['anomaly_score'] = lof_test_data['anomaly_score']
 
 # Save data
-dp.save_to_csv(output_test_svm, './files/output/output_test_svm.csv')
-dp.save_to_csv(output_test_lof, './files/output/output_test_lof.csv')
+dp.save_to_csv(output_test_svm, './files/output/hybrid_model/output_test_svm.csv')
+dp.save_to_csv(output_test_lof, './files/output/hybrid_model/output_test_lof.csv')
 
 # Compare results > get different rows
 mismatch = dp.get_mismatches(output_test_svm, output_test_lof)
