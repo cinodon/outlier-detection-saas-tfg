@@ -124,10 +124,16 @@ def exclude_columns(df, excluded_columns):
 
     return df
 
+def transform_to_dataframe(data, columns_name=None):
+    return pd.DataFrame(data, columns=columns_name)
+
+def clusters_to_inliers(column):
+    return column.apply(lambda x: 1 if x != -1 else -1)
+
 def get_mismatches(df0, df1):
     return df0[df0['anomaly_score'] != df1['anomaly_score']]
 
 def pca_reduce_dimensions(dataframe):
     pca = PCA(n_components=2)
-    dataframe = pca.fit_transform(dataframe)
-    return dataframe
+    reduced_dataframe = pca.fit_transform(dataframe)
+    return reduced_dataframe

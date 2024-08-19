@@ -63,13 +63,14 @@ model_input_df = dp.exclude_columns(model_input_df, excluded_columns)
 # Normalize
 input_df_scaled = cm.scale_data(model_input_df)
 
+# Get base output file
 if connect_database == False:
     output_dataframe = dp.load_csv('./files/output/output-base.csv')
 
 # Reduce dimensionality
-plot_df = dp.pca_reduce_dimensions(input_df_scaled)
+plot_df = dp.pca_reduce_dimensions(model_input_df)
 
-# Select Model 0 - Isolation Forest | 1 - LoF | 2 - DBSCAN | 3 - OPTICS
+# Select Model 0 - Isolation Forest | 1 - LoF | 2 - DBSCAN
 # Set Isolation Forest Parameters range
 n_estimators = config['n_estimators']
 max_samples = config['max_samples']
@@ -97,15 +98,19 @@ if run_if:
                     output_file = f'./files/output/IF/data/IF-ne{ne}-ms{ms}-c{c}.csv'
                     dp.save_to_csv(output_dataframe, output_file)
 
+                # Save plot
                 if if_save_plot:
-                    # Add column
-                    plot_df['anomaly_score'] = output_dataframe['anomaly_score']
+                    input_df_pca = dp.pca_reduce_dimensions(input_df_scaled)
 
-                    # Create and save plot
-                    output_image = f'./files/output/IF/image/IF-ne{ne}-ms{ms}-c{c}.png'
-                    pm.get_plot(f'Isolation Forest\nn_estimators={ne}-max_samples={ms}-contamination={c}',
-                                plot_df,
-                                output_image)
+                    # Convertir a DataFrame y añadir la columna 'anomaly_score'
+                    df_pca = dp.transform_to_dataframe(input_df_pca, ['PC1', 'PC2'])
+                    # Transform found clusters into 1 (inliers)
+                    output_dataframe['anomaly_score'] = dp.clusters_to_inliers(output_dataframe['anomaly_score'])
+                    df_pca['anomaly_score'] = output_dataframe['anomaly_score']
+
+                    # Plot
+                    pm.get_plot(f'Isolation Forest\nn_estimators={ne}-max_samples={ms}-cont.{c}-%={percentage_anomalies}', df_pca,
+                                f'./files/output/IF/images/IF-ne{ne}-ms{ms}-cont{c}.png')
 
 
 # Set DBSCAN Parameters range
@@ -135,23 +140,21 @@ if run_dbscan:
 
             # Save plot
             if dbscan_save_plot:
-                # Add column
-                plot_df['anomaly_score'] = output_dataframe['anomaly_score']
+                input_df_pca = dp.pca_reduce_dimensions(input_df_scaled)
 
-                # Create and save plot
-                output_image = f'./files/output/DBSCAN/image/DBSCAN-e{ne}-ms{ms}.png'
-                pm.get_plot(f'DBSCAN\neps={ne}-min_samples={ms}',
-                            plot_df,
-                            output_image)
+                # Convertir a DataFrame y añadir la columna 'anomaly_score'
+                df_pca = dp.transform_to_dataframe(input_df_pca, ['PC1', 'PC2'])
+                # Transform found clusters into 1 (inliers)
+                output_dataframe['anomaly_score'] = dp.clusters_to_inliers(output_dataframe['anomaly_score'])
+                df_pca['anomaly_score'] = output_dataframe['anomaly_score']
 
-
-
-
+                # Plot
+                pm.get_plot(f'DBSCAN\neps={e}-min_samples={ms}-%={percentage_anomalies}', df_pca, f'./files/output/DBSCAN/images/DBSCAN-eps{e}-ms{ms}.png')
 
 
 # Local Outlier Factor
-n_neighbors = [5, 10, 20]
 run_lof = config['run_lof']
+n_neighbors = config['n_neighbors']
 lof_save_data = config['lof_save_data']
 lof_save_plot = config['lof_save_plot']
 if run_lof:
@@ -174,11 +177,11 @@ if run_lof:
 
         # Save plot
         if lof_save_plot:
-            # Add column
-            plot_df['anomaly_score'] = output_dataframe['anomaly_score']
+            input_df_pca = dp.pca_reduce_dimensions(input_df_scaled)
 
-            # Create and save plot
-            output_image = f'./files/output/LOF/image/LOF-n{n}.png'
-            pm.get_plot(f'LOF\nn_neighbors={n}',
-                        plot_df,
-                        output_image)
+            # Transform to dataframe and add column 'anomaly_score'
+            df_pca = dp.transform_to_dataframe(input_df_pca, ['PC1', 'PC2'])
+            df_pca['anomaly_score'] = output_dataframe['anomaly_score']
+
+            # Plot
+            pm.get_plot(f'LOF\nn_neighbors={n}-%={percentage_anomalies}', df_pca, f'./files/output/LOF/images/LOF-n{n}.png')

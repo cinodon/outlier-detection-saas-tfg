@@ -168,3 +168,6 @@ cython_debug/
 /etl/files/output/LOF/data/*
 /etl/files/output/hybrid_model/output_test_lof.csv
 /etl/files/output/hybrid_model/output_test_svm.csv
+/etl/files/output/DBSCAN/images/*
+/etl/files/output/IF/images/*
+/etl/files/output/LOF/images/*

@@ -17,7 +17,7 @@ train_data_scaled = cm.scale_data(train_data)
 test_data_scaled = cm.scale_data(test_data)
 
 # Convertir los resultados a DataFrames si es necesario
-train_data_scaled_df = pd.DataFrame(train_data_scaled, index=train_data.index, columns=train_data.columns)
+train_data_scaled_df = dp.transform_numpy_array_to_dataframe(train_data_scaled)
 test_data_scaled_df = pd.DataFrame(test_data_scaled, index=test_data.index, columns=test_data.columns)
 
 
@@ -35,7 +35,7 @@ inliers_data = inliers_data.drop(columns=['anomaly_score'])
 svm_model = OneClassSVM(kernel='rbf', gamma='auto')
 svm_model.fit(inliers_data)
 
-# Predict on test_data with SVM
+# Predict on test_data with SVM - Validation
 svm_test_data = test_data_scaled_df
 predictions = svm_model.predict(svm_test_data)
 svm_test_data['anomaly_score'] = predictions

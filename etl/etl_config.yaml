@@ -2,7 +2,7 @@
 sql_input_data: './files/sql/query-raw-access-data.sql'
 sql_output_data: './files/sql/query-output-model-data.sql'
 
-connect_database: True  # Connect to Database?
+connect_database: False  # Connect to Database?
 db_config: {
             'dbname': 'company148',
             'user': 'postgres',
@@ -17,22 +17,23 @@ excluded_columns:
   column_ranges: []  # List of range of excluded columns
 
 # Isolation Forest
-run_if: False  # Run Isolation Forest?
+run_if: True  # Run Isolation Forest?
 n_estimators: [500]  # List of values for n_estimators
 max_samples: [0.9]  # List of values for max_samples
-contamination: [0.05, 0.1] # Values for contamination
+contamination: [0.05] # Values for contamination
 if_save_data: False
-if_save_plot: False
+if_save_plot: True
 
 # DBSCAN
 run_dbscan: True
-eps: [2]
-min_samples: [5]
-dbscan_save_data: True
-dbscan_save_plot: False
+eps: [1.7]
+min_samples: [4]
+dbscan_save_data: False
+dbscan_save_plot: True
 
 # LOF
-run_lof: False
-n_neighbors: [5, 10, 20]
+run_lof: True
+n_neighbors: [10]
 lof_save_data: False
-lof_save_plot: False
+lof_save_plot: True
+
