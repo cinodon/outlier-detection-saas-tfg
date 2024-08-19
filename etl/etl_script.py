@@ -2,6 +2,7 @@ import yaml
 from modules import data_processing as dp
 from modules import db_processor as db
 from modules import clustering_models as cm
+from modules import plot_management as pm
 
 # Config
 with open("./etl_config.yaml", "r") as f:
@@ -59,9 +60,14 @@ model_input_df = dp.load_csv('./files/input/model-input-data.csv')
 excluded_columns = config.get('excluded_columns', {})
 model_input_df = dp.exclude_columns(model_input_df, excluded_columns)
 
+# Normalize
 input_df_scaled = cm.scale_data(model_input_df)
+
 if connect_database == False:
     output_dataframe = dp.load_csv('./files/output/output-base.csv')
+
+# Reduce dimensionality
+plot_df = dp.pca_reduce_dimensions(input_df_scaled)
 
 # Select Model 0 - Isolation Forest | 1 - LoF | 2 - DBSCAN | 3 - OPTICS
 # Set Isolation Forest Parameters range
@@ -91,6 +97,17 @@ if run_if:
                     output_file = f'./files/output/IF/data/IF-ne{ne}-ms{ms}-c{c}.csv'
                     dp.save_to_csv(output_dataframe, output_file)
 
+                if if_save_plot:
+                    # Add column
+                    plot_df['anomaly_score'] = output_dataframe['anomaly_score']
+
+                    # Create and save plot
+                    output_image = f'./files/output/IF/image/IF-ne{ne}-ms{ms}-c{c}.png'
+                    pm.get_plot(f'Isolation Forest\nn_estimators={ne}-max_samples={ms}-contamination={c}',
+                                plot_df,
+                                output_image)
+
+
 # Set DBSCAN Parameters range
 eps = config['eps']
 min_samples = config['min_samples']
@@ -116,6 +133,21 @@ if run_dbscan:
                 output_file = f'./files/output/DBSCAN/data/DBSCAN-eps{e}-ms{ms}.csv'
                 dp.save_to_csv(output_dataframe, output_file)
 
+            # Save plot
+            if dbscan_save_plot:
+                # Add column
+                plot_df['anomaly_score'] = output_dataframe['anomaly_score']
+
+                # Create and save plot
+                output_image = f'./files/output/DBSCAN/image/DBSCAN-e{ne}-ms{ms}.png'
+                pm.get_plot(f'DBSCAN\neps={ne}-min_samples={ms}',
+                            plot_df,
+                            output_image)
+
+
+
+
+
 
 # Local Outlier Factor
 n_neighbors = [5, 10, 20]
@@ -140,4 +172,13 @@ if run_lof:
             output_file = f'./files/output/LOF/data/LOF-n{n}.csv'
             dp.save_to_csv(output_dataframe, output_file)
 
+        # Save plot
+        if lof_save_plot:
+            # Add column
+            plot_df['anomaly_score'] = output_dataframe['anomaly_score']
 
+            # Create and save plot
+            output_image = f'./files/output/LOF/image/LOF-n{n}.png'
+            pm.get_plot(f'LOF\nn_neighbors={n}',
+                        plot_df,
+                        output_image)

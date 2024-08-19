@@ -1,6 +1,8 @@
 import uuid
 import pandas as pd
+from sklearn.decomposition import PCA
 from sklearn.preprocessing import MultiLabelBinarizer
+
 
 
 def transform_query_data(query_results, cursor):
@@ -124,3 +126,8 @@ def exclude_columns(df, excluded_columns):
 
 def get_mismatches(df0, df1):
     return df0[df0['anomaly_score'] != df1['anomaly_score']]
+
+def pca_reduce_dimensions(dataframe):
+    pca = PCA(n_components=2)
+    dataframe = pca.fit_transform(dataframe)
+    return dataframe
