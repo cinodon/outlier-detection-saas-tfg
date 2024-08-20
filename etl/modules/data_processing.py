@@ -134,18 +134,38 @@ def clusters_to_inliers(column):
 def get_mismatches(df0, df1):
     return df0[df0['anomaly_score'] != df1['anomaly_score']]
 
-def pca_reduce_dimensions(dataframe):
+def pca_reduce_to_2D(dataframe):
     pca = PCA(n_components=2)
     reduced_dataframe = pca.fit_transform(dataframe)
     return reduced_dataframe
 
 
-def spectral_embedding_reduce_dimensions(dataframe):
+def spectral_embedding_reduce_to_2D(dataframe):
     embedding = SpectralEmbedding(n_components=2)
-    reduced_dataframe = embedding.fit_transform(dataframe)
-    return reduced_dataframe
+    data_spectral_2d = embedding.fit_transform(dataframe)
+    return data_spectral_2d
 
-def tsne_reduce_dimensions(dataframe):
+def tsne_reduce_to_2D(dataframe):
     tsne = TSNE(n_components=2, perplexity=30, max_iter=1000, random_state=42)
-    reduced_dataframe = tsne.fit_transform(dataframe)
-    return reduced_dataframe
+    data_tsne_2d = tsne.fit_transform(dataframe)
+    return data_tsne_2d
+
+def spectral_embedding_reduce_to_3D(dataframe):
+    embedding = SpectralEmbedding(n_components=3, n_neighbors=15)
+    data_spectral_3d = embedding.fit_transform(dataframe)
+    return data_spectral_3d
+
+def tsne_reduce_to_3D(dataframe):
+    tsne_3d = TSNE(n_components=3, perplexity=30, max_iter=1000, random_state=42)
+    data_tsne_3d = tsne_3d.fit_transform(dataframe)
+    return data_tsne_3d
+
+def get_common_outliers(df0, df1):
+    # Filter dataframes with only the outliers
+    df1_filtered = df0[df0['anomaly_score'] == -1]
+    df2_filtered = df1[df1['anomaly_score'] == -1]
+
+    # Merge common rows
+    common_anomalies = pd.merge(df1_filtered, df2_filtered, how='inner')
+
+    return common_anomalies
