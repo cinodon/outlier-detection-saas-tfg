@@ -3,18 +3,20 @@ from sklearn.ensemble import IsolationForest
 from sklearn.neighbors import LocalOutlierFactor
 from sklearn.preprocessing import StandardScaler
 
-def execute_isolation(input_data, n_estimators, max_samples, contamination='auto', max_features=1.0):
+def execute_isolation(input_data, n_estimators, max_samples, contamination='auto', max_features=1.0, bootstrap=True):
     # Create model
-    model = isolation_forest(n_estimators, max_samples, contamination, max_features=1.0)
+    model = isolation_forest(n_estimators, max_samples, contamination, max_features=max_features, bootstrap=bootstrap)
 
     return model.fit_predict(input_data)
 
 
-def isolation_forest(n_estimators, max_samples, contamination='auto', max_features=1.0):
+def isolation_forest(n_estimators, max_samples, contamination='auto', max_features=1.0, bootstrap=True):
     model = IsolationForest(n_estimators=n_estimators,
                             max_samples=max_samples,
                             contamination=contamination,
-                            max_features=max_features)
+                            max_features=max_features,
+                            bootstrap=bootstrap,
+                            random_state=42)
 
     return model
 

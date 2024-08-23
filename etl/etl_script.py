@@ -75,19 +75,27 @@ model_input_df = dp.exclude_columns(model_input_df, excluded_columns)
 
 # Normalize
 input_df_scaled = cm.scale_data(model_input_df)
-input_df_pca = dp.tsne_reduce_to_3D(input_df_scaled)
+
+# Reduce dimensionality
+if_save_plot = config['if_save_plot']
+dbscan_save_plot = config['dbscan_save_plot']
+lof_save_plot = config['lof_save_plot']
+if if_save_plot or dbscan_save_plot or lof_save_plot:
+    input_df_pca = dp.tsne_reduce_to_3D(input_df_scaled)
+
 # Get base output file
 if connect_database == False:
     output_dataframe = dp.load_csv('./files/output/output-base.csv')
 
-# Reduce dimensionality
-#plot_df = dp.pca_reduce_dimensions(model_input_df)
+
 
 # Select Model 0 - Isolation Forest | 1 - LoF | 2 - DBSCAN
 # Set Isolation Forest Parameters range
 n_estimators = config['n_estimators']
 max_samples = config['max_samples']
 contamination = config['contamination']
+max_features = config['max_features']
+bootstrap = config['bootstrap']
 run_if = config['run_if']
 if_save_data = config['if_save_data']
 if_save_plot = config['if_save_plot']
@@ -95,31 +103,33 @@ if run_if:
     for ne in n_estimators:
         for ms in max_samples:
             for c in contamination:
-                # Execute model
-                output_dataframe['anomaly_score'] = cm.execute_isolation(input_df_scaled, ne, ms, c)
+                for mf in max_features:
+                    for b in bootstrap:
+                        # Execute model
+                        output_dataframe['anomaly_score'] = cm.execute_isolation(input_df_scaled, ne, ms, c, mf, b)
 
-                # Get percentage of outliers
-                num_anomalies = (output_dataframe['anomaly_score'] == -1).sum()
-                total_entries = len(output_dataframe)
-                percentage_anomalies = (num_anomalies / total_entries) * 100
+                        # Get percentage of outliers
+                        num_anomalies = (output_dataframe['anomaly_score'] == -1).sum()
+                        total_entries = len(output_dataframe)
+                        percentage_anomalies = (num_anomalies / total_entries) * 100
 
-                # Print percentage
-                print(f'For IF with n_estimators {ne}, max_samples {ms}, contamination {c}: {percentage_anomalies:.2f}%')
+                        # Print percentage
+                        print(f'For IF with n_estimators {ne}, max_samples {ms}, contamination {c}: {percentage_anomalies:.2f}%')
 
-                # Save data
-                if if_save_data:
-                    output_file = f'./files/output/IF/data/IF-ne{ne}-ms{ms}-c{c}.csv'
-                    dp.save_to_csv(output_dataframe, output_file)
+                        # Save data
+                        if if_save_data:
+                            output_file = f'./files/output/IF/data/IF-ne{ne}-ms{ms}-c{c}.csv'
+                            dp.save_to_csv(output_dataframe, output_file)
 
-                # Save plot
-                if if_save_plot:
-                    # Transform to dataframe and add column 'anomaly_score'
-                    df_plot = dp.transform_to_dataframe(input_df_pca, ['VAR1', 'VAR2', 'VAR3'])
-                    df_plot['anomaly_score'] = output_dataframe['anomaly_score']
+                        # Save plot
+                        if if_save_plot:
+                            # Transform to dataframe and add column 'anomaly_score'
+                            df_plot = dp.transform_to_dataframe(input_df_pca, ['VAR1', 'VAR2', 'VAR3'])
+                            df_plot['anomaly_score'] = output_dataframe['anomaly_score']
 
-                    # Plot
-                    pm.get_plot3D(f'Isolation Forest\nn_estimators={ne}-max_samples={ms}-cont.{c}-%={percentage_anomalies:.2f}', df_plot,
-                                f'./files/output/IF/images/IF-ne{ne}-ms{ms}-cont{c}.png')
+                            # Plot
+                            pm.get_plot3D(f'Isolation Forest\nn_estimators={ne}-max_samples={ms}-cont.{c}-%={percentage_anomalies:.2f}', df_plot,
+                                        f'./files/output/IF/images/IF-ne{ne}-ms{ms}-cont{c}.png')
 
 
 # Set DBSCAN Parameters range

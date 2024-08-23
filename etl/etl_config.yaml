@@ -18,12 +18,11 @@ excluded_columns:
 
 # Isolation Forest
 run_if: True  # Run Isolation Forest?
-n_estimators: [750]  # List of values for n_estimators
-max_samples: [0.9]  # List of values for max_samples
+n_estimators: [1000]  # List of values for n_estimators
+max_samples: [1.0]  # List of values for max_samples
 contamination: ['auto'] # Values for contamination
 max_features: [0.5, 0.7, 1.0]
-bootstrap: [False, True]
-max_depth: [5, 10, 20]
+bootstrap: [False]
 if_save_data: False
 if_save_plot: False
 
@@ -32,11 +31,11 @@ run_dbscan: False
 eps: [1.7]
 min_samples: [4]
 dbscan_save_data: False
-dbscan_save_plot: True
+dbscan_save_plot: False
 
 # LOF
 run_lof: False
 n_neighbors: [10]
 lof_save_data: False
-lof_save_plot: True
+lof_save_plot: False
 
