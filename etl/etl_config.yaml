@@ -1,4 +1,3 @@
-
 sql_input_data: './files/sql/query-raw-access-data.sql'
 sql_output_data: './files/sql/query-output-model-data.sql'
 
@@ -6,7 +5,7 @@ connect_database: False  # Connect to Database?
 db_config: {
             'dbname': 'company148',
             'user': 'postgres',
-            'password': 'password',
+            'password': '********',
             'host': 'localhost',
             'port': '5432'
           }

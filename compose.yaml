@@ -4,7 +4,6 @@ services:
   db:
     image: postgres:16
     container_name: postgres_service
-    # user: "${UID}:${GID}"  # Use environment variables to dynamically set user and group IDs (not allowed by postgress oficial image)
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password  # Using secrets
       POSTGRES_USER: postgres  # Custom username
@@ -12,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgress-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
       - ./database/initialization:/docker-entrypoint-initdb.d/
     secrets:
       - db-password
@@ -43,12 +42,12 @@ services:
 
 
 volumes:
-  postgress-data:
+  postgres-data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${PWD}/database/postgress-volume
+      device: ${PWD}/database/postgres-volume
 
   shared-data:
     driver: local

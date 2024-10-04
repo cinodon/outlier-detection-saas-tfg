@@ -1,0 +1,18 @@
+userapproleid,workappid,workappname,workappcategoryid,userid,typeofworkname,userroleid,permissionlevelid,permissionlevelisprivileged,anomaly_score
+62464e03-926c-435b-8884-559a559d5b86,6a934c67-3e88-4602-9c69-c3ff52e0afb6,Grain,9,5e0aeb86-0e79-4849-9f9e-69a430b61d3f,Other,1,5f96c28c-e899-43ce-9f13-8834c55edaf5,False,-1
+48db5f7d-f210-4921-bdc7-2ea37221055e,606f2ae5-5b0c-42f9-bf01-81fcfc376ba4,Loom,15,7559529e-8054-4a25-b72c-0a4c32bf4ae4,Other,1,,,-1
+277d4195-01f4-41fc-a73e-79bd0316ddf8,936a6328-2eae-4883-90f3-b08653640d42,ClickUp,9,bcfb2c7b-f471-4564-8d15-db40c73752d4,BusinessDevelopment,1,,,-1
+7e7fb3c6-e817-42aa-9a37-62010b1cbda7,25366964-23e0-47d1-9b3b-a0786eedf28e,GitHub,2,96e8b3e5-85ee-49a3-86e2-027b4c1c9c65,ProductManagement,1,,,-1
+154ff4e6-a31c-4ba6-94b2-0651ed9341fe,9256411b-cba5-4546-9ddb-f8f05a03db2a,Slack,15,e549f806-aecd-4347-93e3-3f217bb5d9f7,Other,1,c1201abb-fdc1-4802-be61-9b5770d29a47,False,-1
+49e34ee4-fac5-4cad-a03c-81c1fb1a0635,a396caea-1d6a-42c3-b28f-fa510cf419b6,Elastic Cloud,8,25d26a43-a2be-4cae-8749-2026342a23e4,Other,1,,,-1
+c77f24dd-da1f-43bb-a6ae-7e06eb772ccb,d566bf00-d3ef-43c4-b8d8-5899cd167602,Aircall,16,a104253c-6316-4b7e-bcfe-5ec09c0638f9,Other,1,e491d5bf-ca1e-4421-b20a-bcca560e569a,False,-1
+03b948aa-058e-48c9-be68-0b720bd0f55d,935b2a47-fa53-4eb4-9d42-51b1c8341c46,LinkedIn,10,dbc120c4-8a9e-4b3d-8d4d-44b94c08d7e8,Sales,1,,,-1
+28467a93-f4a1-464f-a922-918e7c74f29f,9682214e-f7da-4957-bf04-19cecc8bbf18,Miro,9,906cf983-4131-4904-b47e-efc5a5bd7cf7,Other,1,860a1e05-3096-49a0-91c7-01fb9abcb934,False,-1
+a56eb4f5-f53b-4a78-b7a8-b1e93ae9025f,c4317ad0-7886-422e-83df-d17eb9a9f977,SalesScreen,4,906cf983-4131-4904-b47e-efc5a5bd7cf7,Other,1,c5d99ea5-2169-4286-ace2-0ddaeccf846c,False,-1
+36feba98-6a01-4668-ba2b-624af2c86bc9,6eecbf80-b3e7-4035-8e9f-e657c609d4ed,1Password,5,7a7a43bd-d612-4635-8428-104b8c3a4e33,Other,1,,,-1
+b24ba70e-ee1d-432c-942b-d84bcbed609b,25406b53-dc8a-42a5-b864-5bf528a4efce,Personio,10,5b871b4c-8867-4ea0-b163-d81a97f89d42,Other,1,68a91472-05c0-46dd-8fa9-85ffefc31220,False,-1
+7a9bbff1-cdb0-4663-93c8-30bc04907ffb,18d7fe96-870d-4f85-b712-2267dd0a13cc,Coda,9,7d3503cb-c277-4cbb-95d4-b75b8e29dc23,Other,1,,,-1
+b91ac78a-d32b-4920-97e3-3fcf3db29fb6,fdde40e9-607e-4ca7-8dd2-b8400ab512ad,DemoCompany,11,e549f806-aecd-4347-93e3-3f217bb5d9f7,Other,1,50b8702a-de7c-4b41-a2a8-fe9dcf928c91,False,-1
+c48e3bf2-3cd2-4e66-b0b8-2c2d84219f26,d38690f4-374b-4ea5-8f5c-64a1a030f4bd,Recruitee,10,4d7c5b08-1ced-44a4-87f0-c19237e8648e,Other,1,,,-1
+df58ec70-2fa2-4077-8452-8b1c7b4cde7c,873b0566-1c75-4ccd-8ec4-1a0f26acfe90,CircleCI,2,b9b01ad9-eb60-4917-8f96-35cf86f544b2,Other,1,,,-1
+0d3c0e32-d205-44cf-a181-0bb658ee265b,606f2ae5-5b0c-42f9-bf01-81fcfc376ba4,Loom,15,23e8dceb-f94d-480d-804b-e8fb9091b4ab,Other,1,,,-1

@@ -69,7 +69,7 @@ if connect_database:
 # Load CSV for Models
 model_input_df = dp.load_csv('./files/input/model-input-data.csv')
 
-# Excluir columnas
+# Exclude columns
 excluded_columns = config.get('excluded_columns', {})
 model_input_df = dp.exclude_columns(model_input_df, excluded_columns)
 
@@ -81,10 +81,10 @@ if_save_plot = config['if_save_plot']
 dbscan_save_plot = config['dbscan_save_plot']
 lof_save_plot = config['lof_save_plot']
 if if_save_plot or dbscan_save_plot or lof_save_plot:
-    input_df_pca = dp.tsne_reduce_to_3D(input_df_scaled)
+    input_df_plot = dp.tsne_reduce_to_3D(input_df_scaled)
 
 # Get base output file
-if connect_database == False:
+if not connect_database:
     output_dataframe = dp.load_csv('./files/output/output-base.csv')
 
 
@@ -124,7 +124,7 @@ if run_if:
                         # Save plot
                         if if_save_plot:
                             # Transform to dataframe and add column 'anomaly_score'
-                            df_plot = dp.transform_to_dataframe(input_df_pca, ['VAR1', 'VAR2', 'VAR3'])
+                            df_plot = dp.transform_to_dataframe(input_df_plot, ['VAR1', 'VAR2', 'VAR3'])
                             df_plot['anomaly_score'] = output_dataframe['anomaly_score']
 
                             # Plot
@@ -160,7 +160,7 @@ if run_dbscan:
             # Save plot
             if dbscan_save_plot:
                 # Transform to dataframe and add column 'anomaly_score'
-                df_plot = dp.transform_to_dataframe(input_df_pca, ['VAR1', 'VAR2', 'VAR3'])
+                df_plot = dp.transform_to_dataframe(input_df_plot, ['VAR1', 'VAR2', 'VAR3'])
                 # Transform clusters ID to inliers = 1
                 output_dataframe['anomaly_score'] = dp.clusters_to_inliers(output_dataframe['anomaly_score'])
                 df_plot['anomaly_score'] = output_dataframe['anomaly_score']
@@ -196,7 +196,7 @@ if run_lof:
         # Save plot
         if lof_save_plot:
             # Transform to dataframe and add column 'anomaly_score'
-            df_plot = dp.transform_to_dataframe(input_df_pca, ['VAR1', 'VAR2', 'VAR3'])
+            df_plot = dp.transform_to_dataframe(input_df_plot, ['VAR1', 'VAR2', 'VAR3'])
             df_plot['anomaly_score'] = output_dataframe['anomaly_score']
 
             # Plot

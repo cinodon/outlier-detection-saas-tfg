@@ -55,3 +55,4 @@ class DBProcessor:
     def db_close(self):
         self.conn.close()
         self.cursor.close()
+

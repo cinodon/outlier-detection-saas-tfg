@@ -60,28 +60,28 @@ def transform_is_privileged_column(dataframe, column_name):
 
 
 def transform_usergroupsid_column(sql_dataframe, column_name='usersgroupids'):
-    # Función auxiliar para convertir la cadena a una lista de UUIDs
+    # Transform string into a list of UUIDs
     def parse_groups(group_string):
         if pd.isna(group_string) or group_string == 'NULL':
             return []
-        # Limpiar el formato de la cadena y convertirla en una lista de UUIDs
+        # Clean format
         group_string = group_string.strip('{}').replace("'", "").replace('"', "")
         if group_string:
             return group_string.split(',')
         return []
 
-    # Convertir las cadenas a listas de UUIDs
+    # Strings to list of UUIDs
     sql_dataframe[column_name] = sql_dataframe[column_name].apply(parse_groups)
 
-    # Aplicar MultiLabelBinarizer para convertir los grupos en columnas binarias
+    # Transform into binary columns
     mlb = MultiLabelBinarizer()
     usergroups_encoded = mlb.fit_transform(sql_dataframe[column_name])
 
-    # Convertir los resultados a un DataFrame y concatenarlo con el original
+    # Transform into a dataframe and group together
     usergroups_encoded_df = pd.DataFrame(usergroups_encoded, columns=mlb.classes_)
     sql_dataframe = pd.concat([sql_dataframe, usergroups_encoded_df], axis=1)
 
-    # Eliminar la columna original
+    # Get rid of the original column
     sql_dataframe.drop(columns=[column_name], inplace=True)
 
     return sql_dataframe
