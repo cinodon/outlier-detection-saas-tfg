@@ -43,6 +43,15 @@ services:
       ports:
         - "5000:5000"
 
+  react-ui:
+    build:
+      context: ./react-ui
+    container_name: react_ui_service
+    depends_on:
+      - flask-api
+    ports:
+      - "3000:3000"
+
 volumes:
   postgres-data:
     driver: local

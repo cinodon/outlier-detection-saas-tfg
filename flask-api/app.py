@@ -1,11 +1,12 @@
 # flask-api/app.py
-
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Importar CORS
 import yaml
-import subprocess
 import os
+import subprocess
 
 app = Flask(__name__)
+CORS(app)  # Habilitar CORS
 
 # Ruta para obtener el archivo YAML
 @app.route('/get-config', methods=['GET'])
@@ -15,22 +16,50 @@ def get_config():
     return jsonify(config)
 
 
-# Ruta para actualizar un valor específico en el archivo YAML
 @app.route('/update-config', methods=['POST'])
 def update_config():
     new_config = request.json
 
-    # Cargar el archivo YAML actual
+    # Parámetros que deben ser listas de floats y no permiten 'auto'
+    float_params = ['max_samples', 'max_features', 'contamination', 'eps']
+
+    # Parámetros que deben ser listas de ints
+    int_params = ['n_estimators', 'min_samples', 'n_neighbors']
+
+    # Convertir los parámetros de lista a los tipos apropiados
+    for param in float_params:
+        if param in new_config:
+            values = new_config[param]
+            if not isinstance(values, list):
+                return jsonify({"error": f"{param} must be a list."}), 400
+            for i, value in enumerate(values):
+                try:
+                    values[i] = float(value)
+                except ValueError:
+                    return jsonify({"error": f"Invalid value for {param}. Must be a float."}), 400
+            new_config[param] = values
+
+    for param in int_params:
+        if param in new_config:
+            values = new_config[param]
+            if not isinstance(values, list):
+                return jsonify({"error": f"{param} must be a list."}), 400
+            for i, value in enumerate(values):
+                try:
+                    values[i] = int(value)
+                except ValueError:
+                    return jsonify({"error": f"Invalid value for {param}. Must be an int"}), 400
+            new_config[param] = values
+
     config_path = '/app/etl/etl_config.yaml'
     with open(config_path, 'r') as file:
         current_config = yaml.safe_load(file)
 
-    # Actualizar solo las claves especificadas en la solicitud
+    # Actualizar los parámetros con los nuevos valores
     for key, value in new_config.items():
         if key in current_config:
             current_config[key] = value
 
-    # Guardar el archivo YAML con las actualizaciones
     with open(config_path, 'w') as file:
         yaml.dump(current_config, file)
 
