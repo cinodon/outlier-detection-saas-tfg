@@ -30,6 +30,17 @@ services:
     volumes:
       - shared-data:/app/etl/files
 
+  flask-api:
+      build:
+        context: ./flask-api
+      container_name: flask_api_service
+      depends_on:
+        - db
+        - etl
+      volumes:
+        - ./etl:/app/etl  # Compartir el directorio ETL para acceder al archivo YAML y el script
+      ports:
+        - "5000:5000"
 
 volumes:
   postgres-data:
