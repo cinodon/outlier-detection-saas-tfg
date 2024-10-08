@@ -1,9 +1,10 @@
 import psycopg2
+import os
 
 class DBProcessor:
     def __init__(self):
         # Path to the secrets
-        self.password_file_path = '../database/db-password'
+        self.password_file_path = os.getenv('DB_PASSWORD_FILE', '../database/db-password')
 
         # Conecction Settings
         self.db_config = {}

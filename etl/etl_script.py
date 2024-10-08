@@ -1,4 +1,5 @@
 import yaml
+import os
 from modules import data_processing as dp
 from modules import db_processor as db
 from modules import clustering_models as cm
@@ -32,8 +33,11 @@ if connect_database:
     # Create a DB Processor
     db_comm = db.DBProcessor()
 
-    # Connect DB
+    # Read db parameters
     db_config = config['db_config']
+
+    # Update host by environment
+    db_config['host'] = os.getenv('DB_HOST', db_config['host'])
     db_comm.db_connection(db_config)
 
     # Create cursor
@@ -203,4 +207,4 @@ if run_lof:
             pm.get_plot3D(f'LOF\nn_neighbors={n}-%={percentage_anomalies:.2f}', df_plot, f'./files/output/LOF/images/LOF-n{n}.png')
 
 # Get common outliers
-get_common_outliers()
+#get_common_outliers()
