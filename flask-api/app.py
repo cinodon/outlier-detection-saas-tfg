@@ -40,10 +40,10 @@ def update_config():
 # Ruta para ejecutar el script ETL
 @app.route('/run-script', methods=['POST'])
 def run_script():
-    # Ejecutar el script ETL directamente en el contenedor `etl_service`
-    result = subprocess.run(["docker", "exec", "etl_service", "python", "/app/etl/etl_script.py"],
-                            capture_output=True, text=True)
-    return jsonify({"stdout": result.stdout, "stderr": result.stderr})
-
+    # Crear un archivo indicador en el volumen compartido
+    trigger_path = "/app/etl/trigger_run.txt"
+    with open(trigger_path, "w") as f:
+        f.write("run")
+    return jsonify({"message": "Execution triggered successfully"})
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

@@ -29,6 +29,7 @@ services:
       - db-password
     volumes:
       - shared-data:/app/etl/files
+      - ./etl:/app/etl  # Volumen compartido para archivos y el trigger
 
   flask-api:
       build:
