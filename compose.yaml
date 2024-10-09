@@ -19,6 +19,7 @@ services:
   etl:
     build:
       context: ./etl
+    image: etl_image
     container_name: etl_service
     depends_on:
       - db
@@ -28,8 +29,9 @@ services:
     secrets:
       - db-password
     volumes:
-      - shared-data:/app/etl/files
+      - shared-data:/app/etl/files # Para compartir gráficos y outputs de modelos con la máquina local
       - ./etl:/app/etl  # Volumen compartido para archivos y el trigger
+    restart: "no"
 
   flask-api:
       build:
@@ -40,6 +42,7 @@ services:
         - etl
       volumes:
         - ./etl:/app/etl  # Compartir el directorio ETL para acceder al archivo YAML y el script
+        - /var/run/docker.sock:/var/run/docker.sock
       ports:
         - "5000:5000"
 

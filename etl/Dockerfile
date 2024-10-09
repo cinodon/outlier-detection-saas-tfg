@@ -15,5 +15,8 @@ WORKDIR /app/etl
 COPY etl-requirements.txt .
 RUN pip install --no-cache-dir -r etl-requirements.txt
 
-# Copiar el código fuente y el script de monitoreo
+# Copiar el código fuente
 COPY . .
+
+# Ejecutar el script ETL al iniciar el contenedor
+CMD ["python", "/app/etl/etl_script.py"]

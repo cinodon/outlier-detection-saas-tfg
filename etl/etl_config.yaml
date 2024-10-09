@@ -2,37 +2,36 @@ bootstrap:
 - false
 connect_database: true
 contamination:
-- 0.5
+- auto
 db_config:
   dbname: company148
   host: localhost
   password: '********'
   port: '5432'
   user: postgres
-dbscan_save_data: true
-dbscan_save_plot: true
+dbscan_save_data: false
+dbscan_save_plot: false
 eps:
 - 1.7
 excluded_columns:
   column_ranges: []
   single_columns: []
-if_save_data: true
-if_save_plot: true
-lof_save_data: true
-lof_save_plot: true
+if_save_data: false
+if_save_plot: false
+lof_save_data: false
+lof_save_plot: false
 max_features:
-- 0.3
+- 1.0
 max_samples:
-- 0.5
+- 0.1
 min_samples:
-- 4
+- 2
 n_estimators:
-- 500
-- 1000
+- 100
 n_neighbors:
-- 20
-run_dbscan: false
+- 5
+run_dbscan: true
 run_if: true
-run_lof: false
+run_lof: true
 sql_input_data: ./files/sql/query-raw-access-data.sql
 sql_output_data: ./files/sql/query-output-model-data.sql
