@@ -17,7 +17,3 @@ RUN pip install --no-cache-dir -r etl-requirements.txt
 
 # Copiar el código fuente y el script de monitoreo
 COPY . .
-RUN chmod +x /app/etl/entrypoint.sh
-
-# Ejecutar el script de monitoreo
-CMD ["/app/etl/entrypoint.sh"]

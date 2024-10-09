@@ -69,11 +69,29 @@ def update_config():
 # Ruta para ejecutar el script ETL
 @app.route('/run-script', methods=['POST'])
 def run_script():
-    # Crear un archivo indicador en el volumen compartido
-    trigger_path = "/app/etl/trigger_run.txt"
-    with open(trigger_path, "w") as f:
-        f.write("run")
-    return jsonify({"message": "Execution triggered successfully"})
+    try:
+        # Ejecutar el script y capturar la salida, con un timeout de 60 segundos
+        result = subprocess.run(
+            ["python3", "/app/etl/etl_script.py"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=60
+        )
+        # Devolver la salida estándar y la salida de error
+        return jsonify({
+            "stdout": result.stdout,
+            "stderr": result.stderr,
+            "message": "Execution completed successfully"
+        })
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            "error": "The script execution timed out. Please try again with different parameters."
+        }), 504
+    except Exception as e:
+        return jsonify({
+            "error": str(e)
+        }), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
