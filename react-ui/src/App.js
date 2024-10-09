@@ -29,17 +29,17 @@ function App() {
     }));
   };
 
-  const parseToList = (input, type) => {
-    return input
-      .split(',')
-      .map((item) => {
-        const trimmed = item.trim();
-        if (trimmed === '') return null;
-        if (type === 'float' && trimmed.toLowerCase() === 'auto') return "auto"; // Permitir 'auto' en contamination
-        return type === 'int' ? parseInt(trimmed, 10) : parseFloat(trimmed);
-      })
-      .filter((item) => item !== null && (item === "auto" || !isNaN(item))); // Elimina null y NaN, permite 'auto'
-  };
+const parseToList = (input, type) => {
+  return input
+    .split(',')
+    .map((item) => {
+      const trimmed = item.trim();
+      if (trimmed === '') return null;
+      if (type === 'float' && trimmed.toLowerCase() === 'auto') return "auto"; // Permitir 'auto' en contamination
+      return type === 'int' ? parseInt(trimmed, 10) : parseFloat(trimmed);
+    })
+    .filter((item) => item !== null && (item === "auto" || !isNaN(item))); // Elimina null y NaN, permite 'auto'
+};
 
   const handleExecute = async () => {
   try {
@@ -87,46 +87,57 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1 className="title">Ejecución de algoritmos</h1>
+      <h1 className="title">Algorithm Execution</h1>
       <p className="instructions">
         For each parameter, you can put its values as a single value or a list of values like a,b,c...
       </p>
 
-      <div className="algorithm-section">
-        <h2>Isolation Forest</h2>
-        <div className="parameters">
-          <label>Run Isolation Forest: <input type="checkbox" name="run_if" checked={config.run_if} onChange={handleChange} /></label>
-          <label>n_estimators (range 100, 9999): <input type="text" name="n_estimators" value={config.n_estimators} onChange={handleChange} /></label>
-          <label>max_samples (range 0.1, 1.0): <input type="text" name="max_samples" value={config.max_samples} onChange={handleChange} /></label>
-          <label>max_features (range 0.1, 1.0): <input type="text" name="max_features" value={config.max_features} onChange={handleChange} /></label>
-          <label>contamination (auto, range 0.01, 0.5): <input type="text" name="contamination" value={config.contamination} onChange={handleChange} /></label>
-          <label>Save data: <input type="checkbox" name="if_save_data" checked={config.if_save_data} onChange={handleChange} /></label>
-          <label>Save plot: <input type="checkbox" name="if_save_plot" checked={config.if_save_plot} onChange={handleChange} /></label>
+      <div className="main-content">
+        <div className="algorithm-section-container">
+          <div className="algorithm-section">
+            <h2>Isolation Forest</h2>
+            <div className="parameters">
+              <label>Run Isolation Forest: <input type="checkbox" name="run_if" onChange={handleChange} /></label>
+              <label>n_estimators (range 100, 9999): <input type="text" name="n_estimators" value={config.n_estimators} onChange={handleChange} /></label>
+              <label>max_samples (range 0.1, 1.0): <input type="text" name="max_samples" value={config.max_samples} onChange={handleChange} /></label>
+              <label>max_features (range 0.1, 1.0): <input type="text" name="max_features" value={config.max_features} onChange={handleChange} /></label>
+              <label>contamination (auto, range 0.01, 0.5): <input type="text" name="contamination" value={config.contamination} onChange={handleChange} /></label>
+              <label>Save data: <input type="checkbox" name="if_save_data" onChange={handleChange} /></label>
+              <label>Save plot: <input type="checkbox" name="if_save_plot" onChange={handleChange} /></label>
+            </div>
+          </div>
+
+          <div className="algorithm-section">
+            <h2>DBSCAN</h2>
+            <div className="parameters">
+              <label>Run DBSCAN: <input type="checkbox" name="run_dbscan" onChange={handleChange} /></label>
+              <label>eps (e.g., 0.5): <input type="text" name="eps" value={config.eps} onChange={handleChange} /></label>
+              <label>min_samples (range 1, inf): <input type="text" name="min_samples" value={config.min_samples} onChange={handleChange} /></label>
+              <label>Save data: <input type="checkbox" name="dbscan_save_data" onChange={handleChange} /></label>
+              <label>Save plot: <input type="checkbox" name="dbscan_save_plot" onChange={handleChange} /></label>
+            </div>
+          </div>
+
+          <div className="algorithm-section">
+            <h2>LOF</h2>
+            <div className="parameters">
+              <label>Run LOF: <input type="checkbox" name="run_lof" onChange={handleChange} /></label>
+              <label>n_neighbors (range 1, n_samples): <input type="text" name="n_neighbors" value={config.n_neighbors} onChange={handleChange} /></label>
+              <label>Save data: <input type="checkbox" name="lof_save_data" onChange={handleChange} /></label>
+              <label>Save plot: <input type="checkbox" name="lof_save_plot" onChange={handleChange} /></label>
+            </div>
+          </div>
+
+          <button onClick={handleExecute}>Execute</button>
+        </div>
+
+        <div className="execution-output">
+          <h2>Output</h2>
+          <div className="output-box">
+            {/* Aquí puedes poner la salida del script */}
+          </div>
         </div>
       </div>
-
-      <div className="algorithm-section">
-        <h2>DBSCAN</h2>
-        <div className="parameters">
-          <label>Run DBSCAN: <input type="checkbox" name="run_dbscan" checked={config.run_dbscan} onChange={handleChange} /></label>
-          <label>eps (e.g., 0.5): <input type="text" name="eps" value={config.eps} onChange={handleChange} /></label>
-          <label>min_samples (range 1, inf): <input type="text" name="min_samples" value={config.min_samples} onChange={handleChange} /></label>
-          <label>Save data: <input type="checkbox" name="dbscan_save_data" checked={config.dbscan_save_data} onChange={handleChange} /></label>
-          <label>Save plot: <input type="checkbox" name="dbscan_save_plot" checked={config.dbscan_save_plot} onChange={handleChange} /></label>
-        </div>
-      </div>
-
-      <div className="algorithm-section">
-        <h2>LOF</h2>
-        <div className="parameters">
-          <label>Run LOF: <input type="checkbox" name="run_lof" checked={config.run_lof} onChange={handleChange} /></label>
-          <label>n_neighbors (range 1, n_samples): <input type="text" name="n_neighbors" value={config.n_neighbors} onChange={handleChange} /></label>
-          <label>Save data: <input type="checkbox" name="lof_save_data" checked={config.lof_save_data} onChange={handleChange} /></label>
-          <label>Save plot: <input type="checkbox" name="lof_save_plot" checked={config.lof_save_plot} onChange={handleChange} /></label>
-        </div>
-      </div>
-
-      <button onClick={handleExecute}>Execute</button>
     </div>
   );
 }

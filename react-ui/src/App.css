@@ -1,95 +1,118 @@
 /* App.css */
-body {
-  background-color: #2d2d2d; /* Fondo gris oscuro */
-  color: #ffffff; /* Texto blanco */
-  font-family: Arial, sans-serif;
+
+* {
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background-color: #1c1c1e;
+  color: #fff;
 }
 
 .app-container {
-  text-align: center;
-  width: 90%;
-  max-width: 800px;
+  width: 100vw; /* Ocupar todo el ancho de la ventana */
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
-  border-radius: 8px;
 }
 
 .title {
-  font-size: 2.5rem;
+  text-align: center;
+  font-size: 2em;
   margin-bottom: 10px;
-  color: #ffffff;
 }
 
 .instructions {
-  font-size: 1rem;
-  margin-bottom: 20px;
-  color: #bbbbbb; /* Color más claro para el texto de instrucciones */
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.main-content {
+  display: flex;
+  gap: 20px;
+}
+
+.algorithm-section-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .algorithm-section {
-  margin-bottom: 25px;
-  text-align: left;
+  background-color: #2c2c2e;
   padding: 20px;
-  background-color: #3a3a3a;
-  border-radius: 8px;
-  width: 100%;
+  border-radius: 10px;
 }
 
 .algorithm-section h2 {
-  font-size: 1.5rem;
+  color: #76c7c0; /* Color del título */
   margin-bottom: 15px;
-  color: #76c7c0; /* Verde azulado para el título */
-}
-
-.parameters {
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
 }
 
 .parameters label {
-  display: flex;
-  justify-content: space-between;
+  display: block;
   margin-bottom: 10px;
-  align-items: center;
+  color: #ddd;
 }
 
-.parameters label input[type="text"] {
-  padding: 8px;
-  margin-left: 10px;
-  width: 80%;
-  border: 1px solid #666;
-  border-radius: 4px;
-  background-color: #4a4a4a;
-  color: #ffffff;
+.parameters input[type="text"] {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  background-color: #333;
+  border: 1px solid #555;
+  border-radius: 5px;
+  color: #fff;
 }
 
-.parameters label input[type="checkbox"] {
+.parameters input[type="checkbox"] {
   margin-left: 10px;
+}
+
+.execution-output {
+  flex: 1;
+  background-color: #2c2c2e;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.execution-output h2 {
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.output-box {
+  background-color: #1c1c1e;
+  padding: 15px;
+  border-radius: 5px;
+  color: #fff;
+  min-height: 300px;
 }
 
 button {
-  margin-top: 20px;
+  background-color: #76c7c0; /* Mismo color que los títulos */
+  color: #fff;
+  font-size: 1em;
   padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #ffffff;
-  background-color: #76c7c0;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-top: 20px;
+  width: 150px; /* Ajustar a las dimensiones deseadas */
+  text-align: center;
 }
 
 button:hover {
-  background-color: #5aa9a4;
+  background-color: #5ea9a3; /* Color más oscuro al hacer hover */
 }
 
 button:active {
-  background-color: #3a7b73;
+  background-color: #4d8a87; /* Color aún más oscuro al hacer click */
 }
