@@ -74,5 +74,6 @@ def run_script():
     with open(trigger_path, "w") as f:
         f.write("run")
     return jsonify({"message": "Execution triggered successfully"})
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
