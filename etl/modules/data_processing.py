@@ -17,7 +17,7 @@ def transform_query_data(query_results, cursor):
     # Transform Group
     sql_dataframe = transform_usergroupsid_column(sql_dataframe)
 
-    print("Data transformed successfully!")
+    #print("Data transformed successfully!")
     return sql_dataframe
 
 def transform_query_to_dataframe(query_results, cursor):
@@ -88,10 +88,10 @@ def transform_usergroupsid_column(sql_dataframe, column_name='usersgroupids'):
 
 def save_to_csv(sql_dataframe, output_path):
     sql_dataframe.to_csv(output_path, header=True, index=False)
-    print("Data Transformed and Saved successfully!")
+    #print("Data Transformed and Saved successfully!")
 
 def load_csv(input_path):
-    print("Data Read Successfully!")
+    #print("Data Read Successfully!")
     return pd.read_csv(input_path)
 
 
@@ -105,13 +105,13 @@ def exclude_columns(df, excluded_columns):
     column_ranges = excluded_columns.get('column_ranges', [])
     if column_ranges:
         for col_range in column_ranges:
-            # Validar que el rango tenga exactamente dos elementos (inicio y fin)
+            # Check range
             if len(col_range) == 2:
                 start, end = col_range
                 if isinstance(start, int) and isinstance(end, int):
                     columns_to_drop.extend(list(range(start, end + 1)))
             else:
-                print(f"Advertencia: Rango mal definido {col_range}")
+                print(f"Warning: Bad range {col_range}")
 
     if columns_to_drop:
         # Asegúrate de que los índices de columna sean válidos para el dataframe
