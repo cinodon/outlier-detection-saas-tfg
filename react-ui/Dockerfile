@@ -1,24 +1,24 @@
-# Utilizar una imagen ligera de Node
+# Use a light image for Node
 FROM node:16-alpine
 
-# Establecer el directorio de trabajo
+# Set th working directory
 WORKDIR /app
 
-# Copiar package.json y package-lock.json
+# Copy json
 COPY package*.json ./
 
-# Instalar las dependencias
+# Install dependencies
 RUN npm install
 
-# Copiar el resto del código fuente
+# Copy source code
 COPY . .
 
-# Construir la aplicación
+# Build app
 RUN npm run build
 
-# Utilizar un servidor web para servir la aplicación en producción
+# Server for the app
 RUN npm install -g serve
 CMD ["serve", "-s", "build"]
 
-# Exponer el puerto
+# Expose port 3000
 EXPOSE 3000

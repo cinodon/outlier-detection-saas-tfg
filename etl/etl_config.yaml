@@ -9,27 +9,30 @@ db_config:
   password: '********'
   port: '5432'
   user: postgres
-dbscan_save_data: false
-dbscan_save_plot: false
+dbscan_save_data: true
+dbscan_save_plot: true
 eps:
 - 1.7
 excluded_columns:
   column_ranges: []
   single_columns: []
-if_save_data: false
-if_save_plot: false
-lof_save_data: false
-lof_save_plot: false
+if_save_data: true
+if_save_plot: true
+lof_save_data: true
+lof_save_plot: true
 max_features:
 - 1.0
 max_samples:
-- 0.1
+- 1.0
 min_samples:
-- 2
+- 4
 n_estimators:
 - 100
+- 200
+- 1000
 n_neighbors:
-- 5
+- 10
+- 20
 run_dbscan: true
 run_if: true
 run_lof: true

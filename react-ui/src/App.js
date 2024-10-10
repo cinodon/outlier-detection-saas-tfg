@@ -20,7 +20,8 @@ function App() {
     lof_save_data: false,
     lof_save_plot: false
   });
-  const [output, setOutput] = useState(''); // Estado para la salida del script
+  //Script's output
+  const [output, setOutput] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -64,7 +65,7 @@ function App() {
       configData.lof_save_data = config.lof_save_data;
       configData.lof_save_plot = config.lof_save_plot;
 
-      // Actualizar configuración en el backend
+      // Update YAML calling update-config in Flask
       const updateResponse = await fetch('http://localhost:5000/update-config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -72,13 +73,13 @@ function App() {
       });
       await updateResponse.json();
 
-      // Ejecutar el script y obtener la salida
+      // Run script with Flask
       const executeResponse = await fetch('http://localhost:5000/run-script', {
         method: 'POST',
       });
       const result = await executeResponse.json();
 
-      // Actualizar el estado de salida con la respuesta del script
+      // Update the output
       setOutput(result.output || "No output from script");
 
     } catch (error) {
@@ -89,7 +90,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1 className="title">Ejecución de algoritmos</h1>
+      <h1 className="title">Algorithm Execution</h1>
       <p className="instructions">
         For each parameter, you can put its values as a single value or a list of values like a,b,c...
       </p>
@@ -124,7 +125,7 @@ function App() {
             <h2>LOF</h2>
             <div className="parameters">
               <label>Run LOF: <input type="checkbox" name="run_lof" onChange={handleChange} /></label>
-              <label>n_neighbors (range 1, n_samples): <input type="text" name="n_neighbors" value={config.n_neighbors} onChange={handleChange} /></label>
+              <label>n_neighbors (range 1, samples): <input type="text" name="n_neighbors" value={config.n_neighbors} onChange={handleChange} /></label>
               <label>Save data: <input type="checkbox" name="lof_save_data" onChange={handleChange} /></label>
               <label>Save plot: <input type="checkbox" name="lof_save_plot" onChange={handleChange} /></label>
             </div>
@@ -134,9 +135,9 @@ function App() {
         </div>
 
         <div className="execution-output">
-          <h2>Salida de la ejecución</h2>
+          <h2>Output</h2>
           <div className="output-box">
-            <pre>{output}</pre> {/* Mostrar la salida aquí */}
+            <pre>{output}</pre> {/*Output*/}
           </div>
         </div>
       </div>

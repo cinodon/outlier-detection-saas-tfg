@@ -29,8 +29,8 @@ services:
     secrets:
       - db-password
     volumes:
-      - shared-data:/app/etl/files # Para compartir gráficos y outputs de modelos con la máquina local
-      - ./etl:/app/etl  # Volumen compartido para archivos y el trigger
+      - shared-data:/app/etl/files # Volume to share images and data with the host
+      - ./etl:/app/etl  # Shared volume with flask-api
     restart: "no"
 
   flask-api:
@@ -41,8 +41,8 @@ services:
         - db
         - etl
       volumes:
-        - ./etl:/app/etl  # Compartir el directorio ETL para acceder al archivo YAML y el script
-        - /var/run/docker.sock:/var/run/docker.sock
+        - ./etl:/app/etl  # Shared volume with etl
+        - /var/run/docker.sock:/var/run/docker.sock # Docker socket in backend service
       ports:
         - "5000:5000"
 

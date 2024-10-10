@@ -1,22 +1,22 @@
 FROM python:3.11-slim
 
-# Crear directorios
+# Create directories
 RUN mkdir -p /app/etl/files/sql
 RUN mkdir -p /app/etl/files/input
 RUN mkdir -p /app/etl/files/output
 
-# Copiar archivos SQL necesarios
+# Copy SQL Queries
 COPY files/sql/query-raw-access-data.sql /app/etl/files/sql/
 COPY files/sql/query-output-model-data.sql /app/etl/files/sql/
 
 WORKDIR /app/etl
 
-# Copiar el archivo de requerimientos e instalar dependencias
+# Copy the script requirements and install dependencies
 COPY etl-requirements.txt .
 RUN pip install --no-cache-dir -r etl-requirements.txt
 
-# Copiar el código fuente
+# Copy app
 COPY . .
 
-# Ejecutar el script ETL al iniciar el contenedor
+# Run script
 CMD ["python", "/app/etl/etl_script.py"]

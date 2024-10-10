@@ -2,18 +2,18 @@
 
 FROM python:3.11-slim
 
-# Crear el directorio de la app
+# Create app directory
 WORKDIR /app
 
-# Copiar y instalar requerimientos
+# Copy and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar el código fuente
+# Copy source code
 COPY . .
 
-# Expone el puerto de Flask
+# Expose port 5000 (Flask)
 EXPOSE 5000
 
-# Ejecutar el servidor Flask
+# Run flask server
 CMD ["python", "app.py"]
