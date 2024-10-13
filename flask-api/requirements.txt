@@ -1,0 +1,4 @@
+flask
+pyyaml
+flask-cors
+docker

@@ -6,7 +6,7 @@ import os
 # add dir to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from modules.data_processing import transform_data
+from modules.data_processing import transform_query_data
 
 
 class TestDataProcessing(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestDataProcessing(unittest.TestCase):
         cursor = Mock()
         cursor.description = [(col,) for col in self.columns]
 
-        transformed_df = transform_data(self.query_results, cursor)
+        transformed_df = transform_query_data(self.query_results, cursor)
 
         # Transform UUID to int
         self.assertEqual(transformed_df['workappid'].iloc[0],

@@ -4,7 +4,6 @@ services:
   db:
     image: postgres:16
     container_name: postgres_service
-    # user: "${UID}:${GID}"  # Use environment variables to dynamically set user and group IDs (not allowed by postgress oficial image)
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password  # Using secrets
       POSTGRES_USER: postgres  # Custom username
@@ -12,43 +11,57 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgress-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
       - ./database/initialization:/docker-entrypoint-initdb.d/
     secrets:
       - db-password
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
-
   etl:
     build:
       context: ./etl
+    image: etl_image
     container_name: etl_service
     depends_on:
       - db
     environment:
       DB_PASSWORD_FILE: /run/secrets/db-password
+      DB_HOST: db
     secrets:
       - db-password
     volumes:
-      - shared-data:/app/etl/files
+      - shared-data:/app/etl/files # Volume to share images and data with the host
+      - ./etl:/app/etl  # Shared volume with flask-api
+    restart: "no"
 
+  flask-api:
+      build:
+        context: ./flask-api
+      container_name: flask_api_service
+      depends_on:
+        - db
+        - etl
+      volumes:
+        - ./etl:/app/etl  # Shared volume with etl
+        - /var/run/docker.sock:/var/run/docker.sock # Docker socket in backend service
+      ports:
+        - "5000:5000"
+
+  react-ui:
+    build:
+      context: ./react-ui
+    container_name: react_ui_service
+    depends_on:
+      - flask-api
+    ports:
+      - "3000:3000"
 
 volumes:
-  postgress-data:
+  postgres-data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${PWD}/database/postgress-volume
+      device: ${PWD}/database/postgres-volume
 
   shared-data:
     driver: local
