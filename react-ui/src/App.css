@@ -13,7 +13,7 @@ html, body {
 }
 
 .app-container {
-  width: 100vw; /* Ocupar todo el ancho de la ventana */
+  width: 100vw;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -51,7 +51,7 @@ html, body {
 }
 
 .algorithm-section h2 {
-  color: #76c7c0; /* Color del título */
+  color: #76c7c0;
   margin-bottom: 15px;
 }
 
@@ -96,7 +96,7 @@ html, body {
 }
 
 button {
-  background-color: #76c7c0; /* Mismo color que los títulos */
+  background-color: #76c7c0;
   color: #fff;
   font-size: 1em;
   padding: 10px 20px;
@@ -105,14 +105,14 @@ button {
   cursor: pointer;
   transition: background-color 0.3s;
   margin-top: 20px;
-  width: 150px; /* Ajustar a las dimensiones deseadas */
+  width: 150px;
   text-align: center;
 }
 
 button:hover {
-  background-color: #5ea9a3; /* Color más oscuro al hacer hover */
+  background-color: #5ea9a3;
 }
 
 button:active {
-  background-color: #4d8a87; /* Color aún más oscuro al hacer click */
+  background-color: #4d8a87;
 }
