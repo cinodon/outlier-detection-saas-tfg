@@ -28,5 +28,5 @@ The system is built around an ETL (Extract, Transform, Load) pipeline in **Pytho
    ```bash
    docker compose up
 3. Access the app
-   Front: http://localhost:3000
+   : http://localhost:3000
 
