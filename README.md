@@ -22,7 +22,7 @@ The system is built around an ETL (Extract, Transform, Load) pipeline in **Pytho
 ## Installation
 1. Clone this repository:
    ```bash
-   git clone https://github.com/eliasrmz01/tfg-iam-risk-pusture-poc
+   git clone https://github.com/cinodon/outlier-detection-saas-tfg.git
    cd tfg-iam-risk-pusture-poc
 2. Set up and run Docker containers
    ```bash
