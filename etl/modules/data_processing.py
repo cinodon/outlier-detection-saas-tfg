@@ -10,14 +10,21 @@ def transform_query_data(query_results, cursor):
     column_names = get_column_names(cursor)
     sql_dataframe = create_dataframe(query_results, column_names)
 
-    sql_dataframe = transform_uuid_columns(sql_dataframe, ['workappid', 'userid', 'usermanagerid', 'permissionlevelid'])
-    sql_dataframe = fill_na_columns(sql_dataframe, ['workappcategoryid', 'usertypeofworkid', 'userroleid', 'permissionlevelisprivileged'])
+    sql_dataframe = transform_uuid_columns(sql_dataframe, ['workappid',
+                                                                       'userid',
+                                                                       'usermanagerid',
+                                                                       'permissionlevelid'])
+
+    sql_dataframe = fill_na_columns(sql_dataframe, ['workappcategoryid',
+                                                            'usertypeofworkid',
+                                                            'userroleid',
+                                                            'permissionlevelisprivileged'])
+
     sql_dataframe = transform_is_privileged_column(sql_dataframe, 'permissionlevelisprivileged')
 
     # Transform Group
     sql_dataframe = transform_usergroupsid_column(sql_dataframe)
 
-    #print("Data transformed successfully!")
     return sql_dataframe
 
 def transform_query_to_dataframe(query_results, cursor):
@@ -52,9 +59,7 @@ def fill_na_columns(dataframe, columns, fill_value=-1):
 
 
 def transform_is_privileged_column(dataframe, column_name):
-    """
-    Transform the 'is privileged' column to integers: True -> 1, False -> 0, otherwise -1.
-    """
+    #Transform the 'is privileged' column to integers: True -> 1, False -> 0, otherwise -1.
     dataframe[column_name] = dataframe[column_name].apply(lambda x: int(x) if x in [True, False] else -1)
     return dataframe
 

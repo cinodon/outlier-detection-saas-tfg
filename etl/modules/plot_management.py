@@ -51,29 +51,29 @@ def get_plot3D(title, dataframe, path):
     plt.close()
 
 def create_anomaly_plot3D(title, dataframe):
-    # Crear el gráfico 3D con t-SNE
+    # Create 3D plot
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
 
     setup_plot_legend3D(ax, dataframe)
 
-    # Añadir la leyenda
+    # Add legend
     ax.legend(title="Anomaly Score")
 
-    # Etiquetas y título
+    # Title and tags
     ax.set_title(title)
     ax.set_xlabel('PAR 1')
     ax.set_ylabel('PAR 2')
     ax.set_zlabel('PAR 3')
 
 def setup_plot_legend3D(ax, dataframe):
-    # Graficar los inliers (1)
+    # Inliers
     ax.scatter(dataframe[dataframe['anomaly_score'] == 1]['VAR1'],
                dataframe[dataframe['anomaly_score'] == 1]['VAR2'],
                dataframe[dataframe['anomaly_score'] == 1]['VAR3'],
                color='#49E685', label='Inliers', s=30, alpha=0.5)
 
-    # Graficar los outliers (-1)
+    # Outliers
     ax.scatter(dataframe[dataframe['anomaly_score'] == -1]['VAR1'],
                dataframe[dataframe['anomaly_score'] == -1]['VAR2'],
                dataframe[dataframe['anomaly_score'] == -1]['VAR3'],
