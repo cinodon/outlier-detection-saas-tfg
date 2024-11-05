@@ -16,11 +16,11 @@ services:
     secrets:
       - db-password
 
-  etl:
+  data_analysis:
     build:
-      context: ./etl
-    image: etl_image
-    container_name: etl_service
+      context: ./data_analysis
+    image: data_analysis_image
+    container_name: data_analysis_service
     depends_on:
       - db
     environment:
@@ -29,8 +29,8 @@ services:
     secrets:
       - db-password
     volumes:
-      - shared-data:/app/etl/files # Volume to share images and data with the host
-      - ./etl:/app/etl  # Shared volume with flask-api
+      - shared-data:/app/data_analysis/files # Volume to share images and data with the host
+      - ./data_analysis:/app/data_analysis  # Shared volume with flask-api
     restart: "no"
 
   flask-api:
@@ -39,9 +39,9 @@ services:
       container_name: flask_api_service
       depends_on:
         - db
-        - etl
+        - data_analysis
       volumes:
-        - ./etl:/app/etl  # Shared volume with etl
+        - ./data_analysis:/app/data_analysis  # Shared volume with data_analysis
         - /var/run/docker.sock:/var/run/docker.sock # Docker socket in backend service
       ports:
         - "5000:5000"
@@ -68,7 +68,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${PWD}/etl/files
+      device: ${PWD}/data_analysis/files
 
 secrets:
   db-password:
