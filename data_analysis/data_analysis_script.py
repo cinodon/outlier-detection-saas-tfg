@@ -19,7 +19,7 @@ def get_common_outliers():
     dp.save_to_csv(common_outliers, './files/output/common_outliers.csv')
 
 # Config
-with open("./etl_config.yaml", "r") as f:
+with open("data_analysis_config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 sql_input_data = config['sql_input_data']
