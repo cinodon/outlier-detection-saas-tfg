@@ -20,7 +20,15 @@ function App() {
     lof_save_data: false,
     lof_save_plot: false
   });
-  //Script's output
+
+  // Estado para alternar entre temas claro y oscuro
+  const [isLightMode, setIsLightMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsLightMode(!isLightMode);
+  };
+
+  // Script's output
   const [output, setOutput] = useState('');
 
   const handleChange = (e) => {
@@ -89,11 +97,15 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${isLightMode ? 'light-mode' : ''}`}>
       <h1 className="title">Algorithm Execution</h1>
       <p className="instructions">
         For each parameter, you can put its values as a single value or a list of values like a,b,c...
       </p>
+
+      <button onClick={toggleTheme} style={{ marginBottom: '20px' }}>
+        {isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+      </button>
 
       <div className="main-content">
         <div className="algorithm-section-container">
@@ -137,7 +149,7 @@ function App() {
         <div className="execution-output">
           <h2>Output</h2>
           <div className="output-box">
-            <pre>{output}</pre> {/*Output*/}
+            <pre>{output}</pre>
           </div>
         </div>
       </div>
