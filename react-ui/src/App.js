@@ -21,7 +21,7 @@ function App() {
     lof_save_plot: false
   });
 
-  // Estado para alternar entre temas claro y oscuro
+  // Light-dark mode
   const [isLightMode, setIsLightMode] = useState(false);
 
   const toggleTheme = () => {
