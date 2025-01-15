@@ -30,3 +30,6 @@ The system is built around an ETL (Extract, Transform, Load) pipeline in **Pytho
 3. Access the app
    : http://localhost:3000
 
+## Screenshots
+![OutlierPort](https://github.com/user-attachments/assets/b3676407-09aa-44a9-a625-327073b67dc5)
+
