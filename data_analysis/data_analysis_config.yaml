@@ -32,7 +32,7 @@ n_neighbors:
 - 10
 - 20
 run_dbscan: false
-run_if: true
+run_if: false
 run_lof: false
 sql_input_data: ./files/sql/query-raw-access-data.sql
 sql_output_data: ./files/sql/query-output-model-data.sql

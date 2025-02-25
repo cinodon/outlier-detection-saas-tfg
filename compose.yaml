@@ -53,7 +53,7 @@ services:
     depends_on:
       - flask-api
     ports:
-      - "3000:3000"
+      - "4000:3000"
 
 volumes:
   postgres-data:
