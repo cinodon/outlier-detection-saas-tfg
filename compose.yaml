@@ -5,9 +5,9 @@ services:
     image: postgres:16
     container_name: postgres_service
     environment:
-      POSTGRES_PASSWORD_FILE: /run/secrets/db-password  # Using secrets
-      POSTGRES_USER: postgres  # Custom username
-      POSTGRES_DB: company148  # Initial database
+      POSTGRES_PASSWORD_FILE: /run/secrets/db-password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: company148
     ports:
       - "5432:5432"
     volumes:
@@ -15,6 +15,12 @@ services:
       - ./database/initialization:/docker-entrypoint-initdb.d/
     secrets:
       - db-password
+
+  redis:
+    image: redis:6
+    container_name: redis_service
+    ports:
+      - "6379:6379"
 
   data_analysis:
     build:
@@ -29,22 +35,35 @@ services:
     secrets:
       - db-password
     volumes:
-      - shared-data:/app/data_analysis/files # Volume to share images and data with the host
-      - ./data_analysis:/app/data_analysis  # Shared volume with flask-api
+      - shared-data:/app/data_analysis/files
+      - ./data_analysis:/app/data_analysis
     restart: "no"
 
   flask-api:
-      build:
-        context: ./flask-api
-      container_name: flask_api_service
-      depends_on:
-        - db
-        - data_analysis
-      volumes:
-        - ./data_analysis:/app/data_analysis  # Shared volume with data_analysis
-        - /var/run/docker.sock:/var/run/docker.sock # Docker socket in backend service
-      ports:
-        - "5000:5000"
+    build:
+      context: ./flask-api
+    container_name: flask_api_service
+    depends_on:
+      - db
+      - data_analysis
+      - redis
+    volumes:
+      - ./data_analysis:/app/data_analysis
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "5000:5000"
+
+  celery-worker:
+    build:
+      context: ./flask-api
+    container_name: celery_worker_service
+    depends_on:
+      - flask-api
+      - redis
+    volumes:
+      - ./data_analysis:/app/data_analysis
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: celery -A celery_worker.celery worker --loglevel=info
 
   react-ui:
     build:
@@ -53,7 +72,7 @@ services:
     depends_on:
       - flask-api
     ports:
-      - "3000:3000"
+      - "3001:3000"
 
 volumes:
   postgres-data:
@@ -72,4 +91,4 @@ volumes:
 
 secrets:
   db-password:
-    file: ./database/db-password  # Location of the secret file
+    file: ./database/db-password

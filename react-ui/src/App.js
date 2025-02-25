@@ -54,7 +54,7 @@ function App() {
   const handleExecute = async () => {
     try {
       const configData = {};
-
+  
       if (config.n_estimators) configData.n_estimators = parseToList(config.n_estimators, 'int');
       if (config.max_samples) configData.max_samples = parseToList(config.max_samples, 'float');
       if (config.max_features) configData.max_features = parseToList(config.max_features, 'float');
@@ -62,7 +62,7 @@ function App() {
       if (config.eps) configData.eps = parseToList(config.eps, 'float');
       if (config.min_samples) configData.min_samples = parseToList(config.min_samples, 'int');
       if (config.n_neighbors) configData.n_neighbors = parseToList(config.n_neighbors, 'int');
-
+  
       configData.run_if = config.run_if;
       configData.if_save_data = config.if_save_data;
       configData.if_save_plot = config.if_save_plot;
@@ -72,29 +72,46 @@ function App() {
       configData.run_lof = config.run_lof;
       configData.lof_save_data = config.lof_save_data;
       configData.lof_save_plot = config.lof_save_plot;
-
-      // Update YAML calling update-config in Flask
+  
+      // Update YAML through endpoint update-config
       const updateResponse = await fetch('http://localhost:5000/update-config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(configData),
       });
       await updateResponse.json();
-
-      // Run script with Flask
+  
+      // Call endpoint and get task_id
       const executeResponse = await fetch('http://localhost:5000/run-script', {
         method: 'POST',
       });
       const result = await executeResponse.json();
-
-      // Update the output
-      setOutput(result.output || "No output from script");
-
+  
+      if (result.task_id) {
+        const taskId = result.task_id;
+  
+        // Update output when task is completed
+        const pollTaskStatus = async () => {
+          const statusResponse = await fetch(`http://localhost:5000/task-status/${taskId}`);
+          const statusResult = await statusResponse.json();
+  
+          if (statusResult.state === 'PENDING' || statusResult.state === 'STARTED') {
+            setTimeout(pollTaskStatus, 2000);
+          } else {
+            setOutput(statusResult.result?.output || "No output from script");
+          }
+        };
+  
+        pollTaskStatus();
+      } else {
+        setOutput("Error: task_id Not Found.");
+      }
     } catch (error) {
       console.error('Error executing script:', error);
       setOutput("Error executing script");
     }
   };
+  
 
   return (
     <div className={`app-container ${isLightMode ? 'light-mode' : ''}`}>
