@@ -34,15 +34,7 @@ The system is built around an ETL (Extract, Transform, Load) pipeline in **Pytho
 ![TFG_screenshot](https://github.com/user-attachments/assets/ca88a06a-bcae-4e94-8721-aa7f2d86ccf4)
 
 ## Demo
-<details>
-  <summary>▶ Click to watch the video</summary>
-
-  <a href="https://www.youtube.com/watch?v=S-yN3DxaOyw">
-    <img src="https://img.youtube.com/vi/S-yN3DxaOyw/0.jpg" alt="Watch Video">
-  </a>
-
-</details>
-
+Watch in [Youtube](https://www.youtube.com/watch?v=S-yN3DxaOyw)
 
 ### Handling Secrets and Network Configuration
 
