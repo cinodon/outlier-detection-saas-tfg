@@ -31,8 +31,14 @@ The system is built around an ETL (Extract, Transform, Load) pipeline in **Pytho
    : http://localhost:3000
 
 ## Screenshots
-![OutlierPort](https://github.com/user-attachments/assets/b3676407-09aa-44a9-a625-327073b67dc5)
+![TFG_screenshot](https://github.com/user-attachments/assets/ca88a06a-bcae-4e94-8721-aa7f2d86ccf4)
 
+## Demo
+Watch in [Youtube](https://www.youtube.com/watch?v=S-yN3DxaOyw)
 
-### About the secrets
+### Handling Secrets and Network Configuration
+
 This project includes secret files (such as database passwords) for full transparency, as it is a university project. Normally, these should be kept private, but in this case, they are accessible to everyone in the repository for evaluation purposes. Please handle them responsibly.
+
+Additionally, the Flask backend communicates using a Docker socket. While this approach simplifies container networking and avoids additional service configuration, it is not recommended for production environments due to potential security risks. Exposing the Docker socket can lead to privilege escalation or unauthorized access to the host system. However, for this academic project, the risks have been evaluated, and the setup has been kept simple for demonstration purposes.
+
