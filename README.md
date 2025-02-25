@@ -33,3 +33,6 @@ The system is built around an ETL (Extract, Transform, Load) pipeline in **Pytho
 ## Screenshots
 ![OutlierPort](https://github.com/user-attachments/assets/b3676407-09aa-44a9-a625-327073b67dc5)
 
+
+### About the secrets
+This project includes secret files (such as database passwords) for full transparency, as it is a university project. Normally, these should be kept private, but in this case, they are accessible to everyone in the repository for evaluation purposes. Please handle them responsibly.
